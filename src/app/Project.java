@@ -33,9 +33,23 @@ public class Project extends Activity {
 
   @Override
   public String toString() {
-    return "Project: "+ this.getName() + " Started: "
-    + this.getStart_time().toString() + " Ended: " + this.getEnd_time().toString()
-        + " Duration: " + this.getDuration();
+
+    String holder;
+    // TODO: use something like ssprintf in c
+    if (this.getParent() == null) {
+      // Don't print anything for the root_node
+      holder = "";
+    } else {
+      holder = "Project: " + this.getName() + " Started: "
+          + this.getStart_time().toString() + " Ended: " + this.getEnd_time().toString()
+          + " Duration: " + this.getDuration() + '\n';
+    }
+
+    for (Activity a :
+        this.childs) {
+      holder += a.toString();
+    }
+    return holder;
   }
 
   @Override
@@ -50,6 +64,9 @@ public class Project extends Activity {
 
   @Override
   public Activity getChild(int nth_child) {
+    if (nth_child > (this.childs.size()-1) || nth_child < 0) {
+      return null;
+    }
     return this.childs.get(nth_child);
   }
 }

@@ -49,9 +49,10 @@ public class Task extends Activity{
 
   @Override
   public String toString() {
-    return "Task "+this.getName()+" Started: "
+    // TODO: use something like ssprintf in c
+    return "Task: "+this.getName()+" Started: "
         + this.getStart_time().toString() + " Ended: " + this.getEnd_time().toString()
-        + " Duration: " + this.getDuration();
+        + " Duration: " + this.getDuration() + "\n";
   }
 
   @Override

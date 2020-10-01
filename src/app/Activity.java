@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 abstract class Activity {
+
   private Activity parent;
   private String name;
   private LocalDateTime start_time;
@@ -15,9 +16,15 @@ abstract class Activity {
     this.name = name;
     this.duration = null;
 
+    // Add myself to my parent list
+    if (this.parent != null) {
+      this.parent.addActivity(this);
+    }
+
     // DUMMY FOR NOW
     this.start_time = LocalDateTime.MIN;
     this.end_time = LocalDateTime.MAX;
+    this.duration = Duration.ofSeconds(0);
   }
 
   abstract public Duration calc_duration();
@@ -25,6 +32,10 @@ abstract class Activity {
   abstract public void addActivity(Activity a);
   abstract public void rmActivity(Activity a);
   abstract public Activity getChild(int nth_child);
+
+  public Activity getParent() {
+    return parent;
+  }
 
   public String getName() {
     return name;
