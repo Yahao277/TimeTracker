@@ -68,4 +68,12 @@ abstract class Activity {
   protected void setDuration(Duration duration) {
     this.duration = duration;
   }
+
+  public void propagateTime(LocalDateTime last_tick) {
+    this.end_time = last_tick;
+
+    if (this.parent != null) {
+      this.parent.propagateTime(last_tick);
+    }
+  }
 }

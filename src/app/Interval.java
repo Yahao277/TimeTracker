@@ -7,10 +7,15 @@ import java.util.Observer;
 
 public class Interval implements Observer {
 
+  private Task parent;
   private LocalDateTime started_at;
   private LocalDateTime last_tick;
 
-  public Interval() {
+  // TEST DUMMY
+  private Clock c;
+
+  public Interval(Task parent) {
+    this.parent = parent;
     this.last_tick = null;
     this.started_at = null;
   }
@@ -22,6 +27,7 @@ public class Interval implements Observer {
 
   public void end() {
     // Stop Observing the clock
+    this.c.deleteObserver(this);
   }
 
   public Duration getDuration() {
@@ -31,5 +37,11 @@ public class Interval implements Observer {
   @Override
   public void update(Observable o, Object arg) {
         this.last_tick = (LocalDateTime) arg;
+        this.parent.propagateTime(this.last_tick);
+  }
+
+  public void setClock(Clock clock) {
+    this.c = clock;
+    clock.addObserver(this);
   }
 }

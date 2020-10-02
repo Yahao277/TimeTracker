@@ -2,6 +2,8 @@ package app;
 
 import com.sun.xml.internal.ws.util.StringUtils;
 
+import java.time.LocalDateTime;
+
 public class Main {
 
     public static void printTree(Activity root_node, int level) {
@@ -17,34 +19,55 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        // To hold everything together
+    public static void test_observer() throws InterruptedException {
+        Clock clock = new Clock(2);
         Project root_node = new Project(null, "ROOT_NODE");
+        Project p = new Project(root_node,"testeo");
+        Task test = new Task(p, "testing");
+        test.start(clock);
+        System.out.println(LocalDateTime.now());
+        Thread.sleep(3000);
 
-        // First level
-        Project sw_desing = new Project(root_node, "Software design");
-        Project sw_testing = new Project(root_node, "Software testing");
-        Project databases = new Project(root_node, "Databases");
-        Task transport = new Task(root_node, "transportation");
+        clock.foo();
+        test.end();
 
-        // SW design
-        Project problems = new Project(sw_desing, "Problems");
-        Project time_tracker = new Project(sw_desing, "project time tracker");
+        System.out.println(root_node.toString());
 
-        // Problems
-        Task list1 = new Task(problems, "first list");
-        Task list2 = new Task(problems, "second list");
+    }
 
-        // Time tracker
-        Task handout = new Task(time_tracker,"Read handout");
-        Task milestone1 = new Task(time_tracker, "first milestone");
+    public static void main(String[] args) {
+        // // To hold everything together
+        // Project root_node = new Project(null, "ROOT_NODE");
+        //
+        // // First level
+        // Project sw_desing = new Project(root_node, "Software design");
+        // Project sw_testing = new Project(root_node, "Software testing");
+        // Project databases = new Project(root_node, "Databases");
+        // Task transport = new Task(root_node, "transportation");
+        //
+        // // SW design
+        // Project problems = new Project(sw_desing, "Problems");
+        // Project time_tracker = new Project(sw_desing, "project time tracker");
+        //
+        // // Problems
+        // Task list1 = new Task(problems, "first list");
+        // Task list2 = new Task(problems, "second list");
+        //
+        // // Time tracker
+        // Task handout = new Task(time_tracker,"Read handout");
+        // Task milestone1 = new Task(time_tracker, "first milestone");
+        //
+        // System.out.print("=================================================================\n");
+        // System.out.print(root_node.toString());
+        // System.out.print("=================================================================\n");
+        // System.out.print("=================================================================\n");
+        // Main.printTree(root_node, 0);
+        // System.out.print("=================================================================\n");
 
-        System.out.print("=================================================================\n");
-        System.out.print(root_node.toString());
-        System.out.print("=================================================================\n");
-        System.out.print("=================================================================\n");
-        Main.printTree(root_node, 0);
-        System.out.print("=================================================================\n");
-
+        try {
+            Main.test_observer();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

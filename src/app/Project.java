@@ -23,7 +23,7 @@ public class Project extends Activity {
     Duration acc = Duration.ofSeconds(0);
 
     // Iterate between children and accumulate
-    for (Activity a: this.childs) {
+    for (Activity a : this.childs) {
        acc = acc.plus(a.calc_duration());
     }
 

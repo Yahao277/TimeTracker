@@ -17,7 +17,7 @@ public class Task extends Activity{
   }
 
   private void starInterval() {
-    this.curr_interval = new Interval();
+    this.curr_interval = new Interval(this);
     this.intervals.add(this.curr_interval);
   }
 
@@ -27,6 +27,12 @@ public class Task extends Activity{
 
   public void start() {
     this.starInterval();
+    this.curr_interval.begin();
+  }
+
+  public void start(Clock clock) {
+    this.starInterval();
+    this.curr_interval.setClock(clock);
     this.curr_interval.begin();
   }
 
