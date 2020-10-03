@@ -1,0 +1,137 @@
+@startuml
+
+'Layout
+together {
+    class Activity
+    class Task
+    class Project
+}
+
+together {
+    class Task
+    class Interval
+}
+
+'Relations
+Main .. Activity : "Creates"
+Main .. Clock : "Creates"
+
+
+Activity "1" o-- Activity
+Project "1" o-- "N" Activity
+Task "1" *-- "N" Interval
+
+Interval "1" o-- Task
+Interval "1" o-- Clock
+
+'Classes
+''Entry point
+class Main {
+
+    {static} + main(String[] args)
+    {static} + printTree()
+    {static} + test_observer()
+
+}
+
+''Composite
+abstract class Activity {
+
+    'Private vars
+    - parent : Activity
+    - name : String
+    - start_time : LocalDateTime
+    - end_time : LocalDateTime
+    - duration : Duration
+    
+    'Constructor
+    # Activity(parent : Activity, name : String)
+
+    'Composite methods
+    ''Recursive ones
+    {abstract} + Duration calc_duration()
+    {abstract} + String toString()
+    ''Tree edition
+    {abstract} + void addActivity(a : Activity)
+    {abstract} + void rmActivity(a º: Activity)
+    {abstract} + Activity getChild(nth_child : int)
+
+    'Back propagation
+    + void propagateTime(last_tick : LocalDateTime)
+}
+
+class Project extends Activity {
+
+    'Private vars
+    - childs : List<Activity>
+
+    'Constructor
+    + Project(parent : Activity, name : String)
+
+    'Composite methods
+    + Duration calcul_duration()
+    + String toString()
+
+    + void addActivity(a : Activity)
+    + void rmActivity(a : Activity)
+    + Activity getChild(nth_child : int)
+}
+
+class Task extends Activity {
+
+    'Private vars
+    - intervals : List<Interval>
+    - curr_interval : Interval
+
+    'Constructor
+    + Task(parent : Activity, name : String)
+
+    'Composite methods
+    + Duration calcul_duration()
+    + String toString()
+
+    + void addActivity(a : Activity)
+    + void rmActivity(a : Activity)
+    + Activity getChild(nth_child : int)
+
+    'Leaf specific methods
+    - void startInterval()
+    - void endInterval()
+    + void start()
+    + void end()
+}
+
+''Observer
+class Interval implements Observer {
+
+    'Private vars
+    - parent : Task
+    - started_at : LocalDateTime
+    - last_tick : LocalDateTime
+    - clock : Clock
+    
+
+    'Constructor
+    + Interval(parent : Task)
+
+    'Observer patterns
+    + void update(o : Observable, arg : Object)
+
+    'Implementation specific
+    + void begin()
+    + void end()
+    + Duration getDuration()
+    +Duration calc_duration()
+}
+
+class Clock extends Observable {
+
+    'Private vars
+    - freq : int
+    - last_tick : LocalDateTime
+
+    'Constructor
+    Clock(freq_seconds : int)
+}
+
+@enduml
