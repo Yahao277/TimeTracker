@@ -22,13 +22,14 @@ public class Main {
         Project root_node = new Project(null, "ROOT_NODE");
         Project p = new Project(root_node,"testeo");
         Task test = new Task(p, "testing");
+        System.out.println(root_node.toString());
+        clock.start();
         test.start(clock);
-        System.out.println(LocalDateTime.now());
+        //System.out.println(LocalDateTime.now());
         Thread.sleep(3000);
 
-        clock.foo();
         test.end();
-
+        clock.stop();
         System.out.println(root_node.toString());
 
     }
@@ -61,6 +62,8 @@ public class Main {
         // System.out.print("=================================================================\n");
         // Main.printTree(root_node, 0);
         // System.out.print("=================================================================\n");
+
+
 
         try {
             Main.test_observer();

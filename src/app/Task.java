@@ -1,6 +1,7 @@
 package app;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Task extends Activity{
     this.curr_interval = null;
   }
 
-  private void starInterval() {
+  private void startInterval() {
     this.curr_interval = new Interval(this);
     this.intervals.add(this.curr_interval);
   }
@@ -26,12 +27,12 @@ public class Task extends Activity{
   }
 
   public void start() {
-    this.starInterval();
+    this.startInterval();
     this.curr_interval.begin();
   }
 
   public void start(Clock clock) {
-    this.starInterval();
+    this.startInterval();
     this.curr_interval.setClock(clock);
     this.curr_interval.begin();
   }

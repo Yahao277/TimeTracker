@@ -17,7 +17,8 @@ public class Interval implements Observer {
   public Interval(Task parent) {
     this.parent = parent;
     this.last_tick = null;
-    this.started_at = null;
+    this.started_at = LocalDateTime.now();
+    this.parent.propagateStartTime(this.started_at);
   }
 
   public void begin() {
@@ -38,6 +39,7 @@ public class Interval implements Observer {
   public void update(Observable o, Object arg) {
         this.last_tick = (LocalDateTime) arg;
         this.parent.propagateTime(this.last_tick);
+
   }
 
   public void setClock(Clock clock) {

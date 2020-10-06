@@ -33,6 +33,7 @@ abstract class Activity {
   abstract public void rmActivity(Activity a);
   abstract public Activity getChild(int nth_child);
 
+
   public Activity getParent() {
     return parent;
   }
@@ -74,6 +75,15 @@ abstract class Activity {
 
     if (this.parent != null) {
       this.parent.propagateTime(last_tick);
+    }
+  }
+
+  public void propagateStartTime(LocalDateTime last_tick) {
+    if(this.parent != null) {
+      if (this.parent.getStart_time() == LocalDateTime.MIN) {
+        this.start_time = last_tick;
+        this.parent.propagateStartTime(last_tick);
+      }
     }
   }
 }
