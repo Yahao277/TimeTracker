@@ -58,6 +58,7 @@ abstract class Activity {
 
     'Back propagation
     + void propagateTime(last_tick : LocalDateTime)
+    + void propagateStartTime(last_tick : LocalDateTime)
 }
 
 class Project extends Activity {
@@ -127,11 +128,18 @@ class Interval implements Observer {
 class Clock extends Observable {
 
     'Private vars
+    - timer : Timer
     - freq : int
     - last_tick : LocalDateTime
 
     'Constructor
     Clock(freq_seconds : int)
+
+    'Methods
+    + void start()
+    + void stop()
+    + void update()
+
 }
 
 @enduml
