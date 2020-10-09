@@ -33,7 +33,6 @@ abstract class Activity {
   abstract public void rmActivity(Activity a);
   abstract public Activity getChild(int nth_child);
 
-
   public Activity getParent() {
     return parent;
   }

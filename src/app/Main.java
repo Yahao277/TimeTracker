@@ -31,44 +31,69 @@ public class Main {
         test.end();
         clock.stop();
         System.out.println(root_node.toString());
+    }
+
+    public static void test_sigleton()throws InterruptedException {
+        Clock clock = Clock.getInstance(2);
+        Clock clock2 = Clock.getInstance(5);
+
+        clock.start();
+        clock2.start();
+        Thread.sleep(6000);
+        clock2.stop();
+        clock.stop();
 
     }
 
-    public static void main(String[] args) {
-        // // To hold everything together
-        // Project root_node = new Project(null, "ROOT_NODE");
-        //
-        // // First level
-        // Project sw_desing = new Project(root_node, "Software design");
-        // Project sw_testing = new Project(root_node, "Software testing");
-        // Project databases = new Project(root_node, "Databases");
-        // Task transport = new Task(root_node, "transportation");
-        //
-        // // SW design
-        // Project problems = new Project(sw_desing, "Problems");
-        // Project time_tracker = new Project(sw_desing, "project time tracker");
-        //
-        // // Problems
-        // Task list1 = new Task(problems, "first list");
-        // Task list2 = new Task(problems, "second list");
-        //
-        // // Time tracker
-        // Task handout = new Task(time_tracker,"Read handout");
-        // Task milestone1 = new Task(time_tracker, "first milestone");
-        //
-        // System.out.print("=================================================================\n");
-        // System.out.print(root_node.toString());
-        // System.out.print("=================================================================\n");
-        // System.out.print("=================================================================\n");
-        // Main.printTree(root_node, 0);
-        // System.out.print("=================================================================\n");
+    public static void main(String[] args) throws InterruptedException {
 
+        Clock clock = Clock.getInstance(2);
 
+        // To hold everything together
+        Project root_node = new Project(null, "ROOT_NODE");
 
-        try {
-            Main.test_observer();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+         // First level
+        Project sw_desing = new Project(root_node, "Software design");
+        Project sw_testing = new Project(root_node, "Software testing");
+        Project databases = new Project(root_node, "Databases");
+        Task transport = new Task(root_node, "transportation");
+        // SW design
+        Project problems = new Project(sw_desing, "Problems");
+        Project time_tracker = new Project(sw_desing, "project time tracker");
+
+        // Problems
+        Task list1 = new Task(problems, "first list");
+        Task list2 = new Task(problems, "second list");
+
+        // Time tracker
+        Task handout = new Task(time_tracker,"Read handout");
+        Task milestone1 = new Task(time_tracker, "first milestone");
+
+        System.out.print("=================================================================\n");
+        System.out.print(root_node.toString());
+        System.out.print("=================================================================\n");
+        System.out.print("=================================================================\n");
+        Main.printTree(root_node, 0);
+        System.out.print("=================================================================\n");
+
+        clock.start();
+
+        transport.start();
+        Thread.sleep(4000);
+        transport.end();
+        Thread.sleep(2000);
+        list1.start();
+        Thread.sleep(6000);
+        list2.start();
+        Thread.sleep(4000);
+        list1.end();
+        Thread.sleep(2000);
+        list2.end();
+        Thread.sleep(2000);
+        transport.start();
+        Thread.sleep(4000);
+        transport.end();
+
+        clock.stop();
     }
 }
