@@ -78,19 +78,19 @@ public class Main {
 
         clock.start();
 
-        transport.start();
+        transport.start(clock);
         Thread.sleep(4000);
         transport.end();
         Thread.sleep(2000);
-        list1.start();
+        list1.start(clock);
         Thread.sleep(6000);
-        list2.start();
+        list2.start(clock);
         Thread.sleep(4000);
         list1.end();
         Thread.sleep(2000);
         list2.end();
         Thread.sleep(2000);
-        transport.start();
+        transport.start(clock);
         Thread.sleep(4000);
         transport.end();
 

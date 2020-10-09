@@ -30,6 +30,7 @@ public class Clock extends Observable {
   }
 
   public void start(){
+    System.out.println("clock starts");
     TimerTask task = new TimerTask(){
       public void run(){
         update();
@@ -39,6 +40,7 @@ public class Clock extends Observable {
   }
 
   public void stop(){
+    System.out.println("clock stops");
     timer.cancel();
   }
 

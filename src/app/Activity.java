@@ -71,7 +71,7 @@ abstract class Activity {
 
   public void propagateTime(LocalDateTime last_tick) {
     this.end_time = last_tick;
-
+    System.out.println("activity: " + getName() + "   " + getStart_time() + "   " + LocalDateTime.now() + "   " + getDuration());
     if (this.parent != null) {
       this.parent.propagateTime(last_tick);
     }
