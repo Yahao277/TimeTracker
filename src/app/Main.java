@@ -18,7 +18,7 @@ public class Main {
     }
 
     public static void test_observer() throws InterruptedException {
-        Clock clock = new Clock(2);
+        Clock clock = Clock.getInstance(2);
         Project root_node = new Project(null, "ROOT_NODE");
         Project p = new Project(root_node,"testeo");
         Task test = new Task(p, "testing");
@@ -33,7 +33,7 @@ public class Main {
         System.out.println(root_node.toString());
     }
 
-    public static void test_sigleton()throws InterruptedException {
+    public static void test_singleton() throws InterruptedException {
         Clock clock = Clock.getInstance(2);
         Clock clock2 = Clock.getInstance(5);
 

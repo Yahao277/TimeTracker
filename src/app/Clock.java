@@ -12,6 +12,7 @@ public class Clock extends Observable {
   private final int freq;
   private LocalDateTime last_tick;
   private Timer timer;
+  private static final int DEFAULT_FREQ = 2;
   private static volatile Clock uniqueInstance = null;
 
   public static synchronized Clock getInstance(int freq){
@@ -23,7 +24,17 @@ public class Clock extends Observable {
     }
     return uniqueInstance;
   }
-  public Clock(int freq_seconds) {
+
+  public static synchronized Clock getInstance(){
+    if(uniqueInstance == null){
+      synchronized ( Clock.class ) {
+        // therefore, only synchronize the first time if (uniqueInstance == null) { // check again
+        uniqueInstance = new Clock(Clock.DEFAULT_FREQ);
+      }
+    }
+    return uniqueInstance;
+  }
+  private Clock(int freq_seconds) {
     this.freq = freq_seconds;
     this.last_tick = LocalDateTime.now();
     this.timer = new Timer();
