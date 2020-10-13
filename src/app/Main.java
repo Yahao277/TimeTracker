@@ -1,5 +1,6 @@
 package app;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class Main {
@@ -76,6 +77,16 @@ public class Main {
         Main.printTree(root_node, 0);
         System.out.print("=================================================================\n");
 
+        Printer printer = new JSONPrinter("prova.json");
+        printer.printActivity(root_node);
+        try{
+            printer.write();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+
+        /*
         clock.start();
 
         transport.start(clock);
@@ -95,5 +106,7 @@ public class Main {
         transport.end();
 
         clock.stop();
+
+         */
     }
 }

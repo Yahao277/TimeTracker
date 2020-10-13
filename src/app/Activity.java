@@ -34,6 +34,8 @@ abstract class Activity {
   abstract public void rmActivity(Activity a);
   abstract public Activity getChild(int nth_child);
 
+  public abstract void accept(Printer printer);
+
   public Activity getParent() {
     return parent;
   }

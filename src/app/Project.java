@@ -52,6 +52,17 @@ public class Project extends Activity {
   }
 
   @Override
+  public String toJSON() {
+    return null;
+  }
+
+  @Override
+  public void accept(Printer printer) {
+    printer.addProject(getName(),getStart_time(),getEnd_time(),getDuration(),childs);
+
+  }
+
+  @Override
   public void addActivity(Activity a) {
     this.childs.add(a);
   }

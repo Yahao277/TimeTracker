@@ -43,6 +43,10 @@ public class Interval implements Observer {
 
   }
 
+  public void accept(Printer printer){
+    printer.addInterval(started_at,last_tick,getDuration().getSeconds());
+  }
+
   public void setClock(Clock clock) {
     this.c = clock;
     clock.addObserver(this);
