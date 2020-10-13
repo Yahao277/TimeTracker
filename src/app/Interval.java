@@ -8,6 +8,11 @@ import java.util.Observer;
 public class Interval implements Observer {
 
   private Task parent;
+
+  public LocalDateTime getEndTime() {
+    return last_tick;
+  }
+
   private LocalDateTime started_at;
   private LocalDateTime last_tick;
 
