@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Observer;
 
-public abstract class Printer {
+public abstract class Printer implements Observer {
   public abstract void printActivity(Activity root);
   public abstract void printInterval(Interval interval);
   public abstract void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, String parent);

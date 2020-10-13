@@ -85,8 +85,10 @@ public class Main {
             e.printStackTrace();
         }*/
 
-        Printer printer = new ScreenPrinter();
-        printer.printActivity(root_node);
+
+        Printer printer = new ScreenPrinter(root_node);
+        Clock.getInstance().addObserver(printer);
+        Clock.getInstance().start();
 
 
         /*

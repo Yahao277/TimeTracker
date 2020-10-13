@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Observable;
 
 
 public class JSONPrinter extends Printer {
@@ -85,5 +86,10 @@ public class JSONPrinter extends Printer {
     }
     obj = aux;
     obj.put("intervals",array);
+  }
+
+  @Override
+  public void update(Observable o, Object arg) {
+
   }
 }

@@ -39,7 +39,7 @@ public class Interval implements Observer {
   public void update(Observable o, Object arg) {
         this.last_tick = (LocalDateTime) arg;
         System.out.println("interval:               " + this.started_at + "   "+ LocalDateTime.now() + "    " + getDuration());
-        this.parent.propagateTime(this.last_tick);
+        this.parent.propagateTime(this);
 
   }
 
