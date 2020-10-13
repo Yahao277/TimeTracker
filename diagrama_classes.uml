@@ -15,6 +15,7 @@ together {
 'Relations
 Main .. Activity : "Creates"
 Main .. Clock : "Creates"
+Main . Printer : "Uses|Creates"
 
 
 Activity "1" o-- Activity
@@ -51,6 +52,7 @@ abstract class Activity {
     ''Recursive ones
     {abstract} + Duration calc_duration()
     {abstract} + String toString()
+    {abstract} + void accept(p : Printer)
     ''Tree edition
     {abstract} + void addActivity(a : Activity)
     {abstract} + void rmActivity(a º: Activity)
@@ -118,6 +120,9 @@ class Interval implements Observer {
     'Observer patterns
     + void update(o : Observable, arg : Object)
 
+    'Visitor
+    + void accept(p : Printer)
+
     'Implementation specific
     + void begin()
     + void end()
@@ -141,5 +146,27 @@ class Clock extends Observable {
     + void update()
 
 }
+
+'Printers
+abstract class Printer {
+
+    + void printActivity(arrel : Activity)
+    + void printInterval(interval : Interval)
+
+}
+
+class ScreenPrinter extends Printer {
+
+    + void printActivity(arrel : Activity)
+    + void printInterval(interval : Interval)
+}
+
+
+class JSONPrinter extends Printer {
+
+    + void printActivity(arrel : Activity)
+    + void printInterval(interval : Interval)
+}
+
 
 @enduml

@@ -63,6 +63,11 @@ public class Task extends Activity{
   }
 
   @Override
+  public String toJSON() {
+    return null;
+  }
+
+  @Override
   public void addActivity(Activity a) {
 
   }

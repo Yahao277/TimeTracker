@@ -25,7 +25,7 @@ public class Clock extends Observable {
     return uniqueInstance;
   }
 
-  public static synchronized Clock getInstance(){
+  public static synchronized Clock getInstance() {
     if(uniqueInstance == null){
       synchronized ( Clock.class ) {
         // therefore, only synchronize the first time if (uniqueInstance == null) { // check again

@@ -29,6 +29,7 @@ abstract class Activity {
 
   abstract public Duration calc_duration();
   abstract public String toString();
+  abstract public String toJSON();
   abstract public void addActivity(Activity a);
   abstract public void rmActivity(Activity a);
   abstract public Activity getChild(int nth_child);
