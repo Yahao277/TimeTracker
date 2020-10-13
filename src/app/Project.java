@@ -34,14 +34,19 @@ public class Project extends Activity {
   public String toString() {
 
     String holder;
-    // TODO: use something like ssprintf in c
+
     if (this.getParent() == null) {
       // Don't print anything for the root_node
       holder = "";
     } else {
-      holder = "Project: " + this.getName() + " Started: "
-          + this.getStart_time().toString() + " Ended: " + this.getEnd_time().toString()
-          + " Duration: " + this.getDuration() + '\n';
+      holder = String.format(
+          "%-8s: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds\n",
+          "Project",
+          this.getName(),
+          (this.getStart_time() != null) ? this.getStart_time() : "null",
+          (this.getEnd_time() != null) ? this.getEnd_time() : "null",
+          this.getDuration()
+      );
     }
 
     for (Activity a :

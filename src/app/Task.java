@@ -31,12 +31,6 @@ public class Task extends Activity{
     this.curr_interval.begin();
   }
 
-  public void start(Clock clock) {
-    this.startInterval();
-    this.curr_interval.setClock(clock);
-    this.curr_interval.begin();
-  }
-
   public void end() {
     this.curr_interval.end();
     this.endInterval();
@@ -56,10 +50,14 @@ public class Task extends Activity{
 
   @Override
   public String toString() {
-    // TODO: use something like ssprintf in c
-    return "Task: "+this.getName()+" Started: "
-        + this.getStart_time().toString() + " Ended: " + this.getEnd_time().toString()
-        + " Duration: " + this.getDuration() + "\n";
+    return String.format(
+        "%-8s: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds\n",
+        "Task",
+        this.getName(),
+        (this.getStart_time() != null) ? this.getStart_time() : "null",
+        (this.getEnd_time() != null) ? this.getEnd_time() : "null",
+        this.getDuration()
+    );
   }
 
   @Override

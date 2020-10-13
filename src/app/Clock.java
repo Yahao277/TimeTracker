@@ -1,5 +1,6 @@
 package app;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Timer;
@@ -41,7 +42,6 @@ public class Clock extends Observable {
   }
 
   public void start(){
-    System.out.println("clock starts");
     TimerTask task = new TimerTask(){
       public void run(){
         update();
@@ -51,15 +51,20 @@ public class Clock extends Observable {
   }
 
   public void stop(){
-    System.out.println("clock stops");
     timer.cancel();
   }
 
   public void update() {
     this.last_tick = LocalDateTime.now();
-    //System.out.println(this.freq + "; " + this.last_tick);
     this.setChanged();
-    this.notifyObservers(this.last_tick);
+    this.notifyObservers(this);
   }
 
+  public LocalDateTime getLatTick() {
+    return this.last_tick;
+  }
+
+  public int getFreq() {
+    return this.freq;
+  }
 }

@@ -21,12 +21,15 @@ public class JSONPrinter extends Printer {
   }
 
   @Override
-  public void write() throws IOException {
-    file = new FileWriter(path);
-    file.write(obj.toString());
-
-    file.flush();
-    file.close();
+  public void write() {
+    try {
+      file = new FileWriter(path);
+      file.write(obj.toString());
+      file.flush();
+      file.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
   }
 

@@ -15,36 +15,36 @@ public class Interval implements Observer {
 
   private LocalDateTime started_at;
   private LocalDateTime last_tick;
-
-  // TEST DUMMY
-  private Clock c;
+  private Duration duration;
 
   public Interval(Task parent) {
     this.parent = parent;
     this.last_tick = null;
+    this.duration = Duration.ZERO;
     this.started_at = LocalDateTime.now();
-    this.parent.propagateStartTime(this.started_at);
   }
 
   public void begin() {
     this.started_at = LocalDateTime.now();
     // Observe to clock
+    Clock.getInstance().addObserver(this);
   }
 
   public void end() {
     // Stop Observing the clock
-    this.c.deleteObserver(this);
+    Clock.getInstance().deleteObserver(this);
   }
 
   public Duration getDuration() {
-    return Duration.between(this.started_at, this.last_tick);
+    return this.duration;
   }
 
   @Override
   public void update(Observable o, Object arg) {
-        this.last_tick = (LocalDateTime) arg;
-        System.out.println("interval:               " + this.started_at + "   "+ LocalDateTime.now() + "    " + getDuration());
-        this.parent.propagateTime(this);
+        Clock c = (Clock) o;
+        this.last_tick = c.getLatTick();
+        this.duration = this.duration.plusSeconds(c.getFreq());
+        this.parent.propagateTime(c.getFreq(), this);
 
   }
 
@@ -52,8 +52,7 @@ public class Interval implements Observer {
     printer.addInterval(started_at,last_tick,getDuration().getSeconds(), this.parent.getName());
   }
 
-  public void setClock(Clock clock) {
-    this.c = clock;
-    clock.addObserver(this);
+  public LocalDateTime getStartTime() {
+    return this.started_at;
   }
 }
