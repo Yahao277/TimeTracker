@@ -30,7 +30,7 @@ public class JSONPrinter extends Printer {
   }
 
   @Override
-  public void addInterval(LocalDateTime start, LocalDateTime end, long duration){
+  public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent){
     obj.put("StartTime",start);
     obj.put("EndTime",end);
     obj.put("duration",duration);
@@ -48,7 +48,7 @@ public class JSONPrinter extends Printer {
   }
 
   @Override
-  public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs) {
+  public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, String parent) {
 
     JSONObject aux = this.obj;
     JSONArray array = new JSONArray();
@@ -68,7 +68,7 @@ public class JSONPrinter extends Printer {
   }
 
   @Override
-  public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, List<Interval> intervals) {
+  public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, List<Interval> intervals, String parent) {
     obj.put("name",name);
     obj.put("type","Task");
     obj.put("StartTime",start);

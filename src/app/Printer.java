@@ -8,8 +8,8 @@ import java.util.List;
 public abstract class Printer {
   public abstract void printActivity(Activity root);
   public abstract void printInterval(Interval interval);
-  public abstract void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs);
-  public abstract void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, List<Interval> intervals);
-  public abstract void addInterval(LocalDateTime start, LocalDateTime end, long duration);
+  public abstract void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, String parent);
+  public abstract void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, List<Interval> intervals, String parent);
+  public abstract void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent);
   public abstract void write() throws IOException;
 }

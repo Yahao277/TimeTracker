@@ -69,7 +69,7 @@ public class Task extends Activity{
 
   @Override
   public void accept(Printer printer) {
-    printer.addTask(getName(),getStart_time(),getEnd_time(),getDuration(),intervals);
+    printer.addTask(getName(),getStart_time(),getEnd_time(),getDuration(),intervals, this.getParent().getName());
   }
 
   @Override

@@ -44,7 +44,7 @@ public class Interval implements Observer {
   }
 
   public void accept(Printer printer){
-    printer.addInterval(started_at,last_tick,getDuration().getSeconds());
+    printer.addInterval(started_at,last_tick,getDuration().getSeconds(), this.parent.getName());
   }
 
   public void setClock(Clock clock) {
