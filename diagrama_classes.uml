@@ -59,7 +59,7 @@ abstract class Activity {
     {abstract} + Activity getChild(nth_child : int)
 
     'Back propagation
-    + void propagateTime(last_tick : LocalDateTime)
+    + void propagateTime(lapse : int, i : interval)
     + void propagateStartTime(last_tick : LocalDateTime)
 }
 
@@ -147,11 +147,16 @@ class Clock extends Observable {
 
 }
 
-'Printers
+''Visitor pattern Printers
 abstract class Printer {
 
-    + void printActivity(arrel : Activity)
-    + void printInterval(interval : Interval)
+    {abstract} + void printActivity(arrel : Activity)
+    {abstract} + void printInterval(interval : Interval)
+    
+    {abstract} + void addProject(name : String, start : LocalDateTime, end : LocalDateTime, duration : long , childs : List, parent : String)
+    {abstract} + void addTask(name : String, start : LocalDateTime, end : LocalDateTime, duration : long, intervals : List, parent : String)
+    {abstract} + void addInterval(start : LocalDateTime, end : LocalDateTime, duration : long, parent : String)
+    {abstract} + void write()
 
 }
 
@@ -159,6 +164,10 @@ class ScreenPrinter extends Printer {
 
     + void printActivity(arrel : Activity)
     + void printInterval(interval : Interval)
+    + void addProject(name : String, start : LocalDateTime, end : LocalDateTime, duration : long , childs : List, parent : String)
+    + void addTask(name : String, start : LocalDateTime, end : LocalDateTime, duration : long, intervals : List, parent : String)
+    + void addInterval(start : LocalDateTime, end : LocalDateTime, duration : long, parent : String)
+    + void write()
 }
 
 
@@ -166,6 +175,10 @@ class JSONPrinter extends Printer {
 
     + void printActivity(arrel : Activity)
     + void printInterval(interval : Interval)
+    + void addProject(name : String, start : LocalDateTime, end : LocalDateTime, duration : long , childs : List, parent : String)
+    + void addTask(name : String, start : LocalDateTime, end : LocalDateTime, duration : long, intervals : List, parent : String)
+    + void addInterval(start : LocalDateTime, end : LocalDateTime, duration : long, parent : String)
+    + void write()
 }
 
 
