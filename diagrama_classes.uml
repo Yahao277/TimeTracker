@@ -148,7 +148,7 @@ class Clock extends Observable {
 }
 
 ''Visitor pattern Printers
-abstract class Printer {
+abstract class Printer implements Observer {
 
     {abstract} + void printActivity(arrel : Activity)
     {abstract} + void printInterval(interval : Interval)

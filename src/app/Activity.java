@@ -1,3 +1,11 @@
+/**
+ * File: Activity.java
+ * Description: this file contains an abstract class part
+ *    of the Composite pattern. It plays the role of the
+ *    general component in the pattern. Both the leaf class and
+ *    the compositor class will inherit from this class.
+ */
+
 package app;
 
 import org.json.JSONObject;
@@ -8,8 +16,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -79,12 +85,11 @@ abstract class Activity {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("");
     newone.start_time = LocalDateTime.from(formatter.parse(obj.getString("start")));
 
-
-
-
     return null;
   }
 
+
+  // Composite functions
   abstract public Duration calc_duration();
   abstract public String toString();
   abstract public String toJSON();
@@ -135,6 +140,11 @@ abstract class Activity {
     this.duration = duration;
   }
 
+  /**
+   * Propagate upwards the structure an increment of time.
+   * @param lapse The amount of time to increment
+   * @param i The interval that comes from
+   */
   public void propagateTime(int lapse, Interval i) {
 
     // Check if it has started before
