@@ -6,7 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Interval implements Observer {
-
+  // Class that represents a time interval and observes the clock to update itself
   private Task parent;
 
   public LocalDateTime getEndTime() {
@@ -17,7 +17,7 @@ public class Interval implements Observer {
   private LocalDateTime last_tick;
   private Duration duration;
 
-  public Interval(Task parent) {
+  public Interval(Task parent) { // Constructor
     this.parent = parent;
     this.last_tick = null;
     this.duration = Duration.ZERO;
@@ -40,7 +40,7 @@ public class Interval implements Observer {
   }
 
   @Override
-  public void update(Observable o, Object arg) {
+  public void update(Observable o, Object arg) { // Updates itself and updates the parent Task
         Clock c = (Clock) o;
         this.last_tick = c.getLatTick();
         this.duration = this.duration.plusSeconds(c.getFreq());
@@ -48,7 +48,7 @@ public class Interval implements Observer {
 
   }
 
-  public void accept(Printer printer){
+  public void accept(Printer printer){ // Visitor implementation
     printer.addInterval(started_at,last_tick,getDuration().getSeconds(), this.parent.getName());
   }
 
