@@ -11,17 +11,18 @@ import java.util.Observable;
 
 
 public class JSONPrinter extends Printer {
+  // Class that turns JSON objects into strings and the other way around
   private JSONObject obj;
   private FileWriter file;
   private String path;
 
-  public JSONPrinter(String path){
+  public JSONPrinter(String path){ // Constructor
     this.path = path;
     this.obj = new JSONObject();
   }
 
   @Override
-  public void write() {
+  public void write() { // We write the JSON object into a file
     try {
       file = new FileWriter(path);
       file.write(obj.toString());
@@ -41,7 +42,7 @@ public class JSONPrinter extends Printer {
   }
 
   @Override
-  public void printActivity(Activity root) {
+  public void printActivity(Activity root) { // Visitor implementation
     root.accept(this);
 
   }
@@ -49,11 +50,11 @@ public class JSONPrinter extends Printer {
   @Override
   public void printInterval(Interval interval) {
     interval.accept(this);
-  }
+  } // Visitor implementation
 
   @Override
   public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, String parent) {
-
+  // We add a project into our JSON array
     JSONObject aux = this.obj;
     JSONArray array = new JSONArray();
 
@@ -73,6 +74,7 @@ public class JSONPrinter extends Printer {
 
   @Override
   public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, List<Interval> intervals, String parent) {
+    // We add a task into our JSON array
     obj.put("name",name);
     obj.put("type","Task");
     obj.put("StartTime",start);
