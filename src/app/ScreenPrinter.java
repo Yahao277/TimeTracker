@@ -10,25 +10,35 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+//  Child class of printer. Responsible for screen printing the entire tree from root.To make it print periodically,
+//  in the update() method the of Observer interface, it runs: "this.printActivity (root)".
+//  And then in the Clock the instance of ScreenPrinter is added to the list of observers.
+
 public class ScreenPrinter extends Printer {
 
   private Activity root;
   private String lastScreen;
 
+  //Method visiting Activity (visitor).
   public void printActivity(Activity root) {
     if(this.root == root) {
       lastScreen = "";
     }
     root.accept(this);
   }
+
+  //Method visiting Interval (visitor).
   public void printInterval(Interval interval){
     interval.accept(this);
   }
 
+  //Sets the root.
   public ScreenPrinter(Activity root) {
     this.root = root;
   }
 
+
+  //Takes the project information for screen printing and then runs a printActivity() of  children.
   @Override
   public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, String parent) {
     String holder = String.format(
@@ -49,6 +59,8 @@ public class ScreenPrinter extends Printer {
     }
   }
 
+
+  //Responsible for printing the job and also printInterval () from its list of intervals.
   @Override
   public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, List<Interval> intervals, String parent) {
 
@@ -70,6 +82,8 @@ public class ScreenPrinter extends Printer {
     }
   }
 
+
+  //prints start_time, end_time, and interval duration.
   @Override
   public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent) {
     String holder =  String.format(

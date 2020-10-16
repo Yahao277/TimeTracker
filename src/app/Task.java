@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+// Child class of Activity. Each task has a duration, start time and end time, represented with the interval class. Unlike project, a task has no child class.
 public class Task extends Activity{
 
   private List<Interval> intervals;
@@ -65,6 +66,8 @@ public class Task extends Activity{
     return null;
   }
 
+
+  //so that the Printer can paste the information necessary.
   @Override
   public void accept(Printer printer) {
     printer.addTask(getName(),getStart_time(),getEnd_time(),getDuration(),intervals, this.getParent().getName());
