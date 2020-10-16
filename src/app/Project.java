@@ -24,8 +24,10 @@ public class Project extends Activity {
     this.setDuration(Duration.ofSeconds(0));
   }
 
-  // To calculate the duration we should get the duration
-  // of his childs activities
+  /**
+   To calculate the duration we should get the duration
+   of his childs activities
+   */
   @Override
   public Duration calc_duration() {
 
@@ -72,8 +74,10 @@ public class Project extends Activity {
     return null;
   }
 
-  // accepts the Printer visitor. printer can gets the information what it needs,
-  // to print on screen or write in a json file
+  /**
+   accepts the Printer visitor. printer can gets the information what it needs,
+   to print on screen or write in a json file
+  */
   @Override
   public void accept(Printer printer) {
     if(this.getParent() != null) {

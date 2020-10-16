@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Observer;
 
-/* abstract class Printer,
+/**
+   abstract class Printer,
     here we used two patterns: Visitor and Observer
 
     methods that visits Activity and Interval class:
