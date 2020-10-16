@@ -3,6 +3,15 @@ package app;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Project class extends from the abstract class Activity,
+ * we add a new private attribute (a list of activities childs)
+ *
+ * comparing to the Activity class, the two main changes are:
+ * - Possibility of Adding new subtasks or subprojects, or remove it.
+ * - The calculation of duration is based on the sum of
+ * durations of his childs activities
+ */
 
 public class Project extends Activity {
 
@@ -15,6 +24,8 @@ public class Project extends Activity {
     this.setDuration(Duration.ofSeconds(0));
   }
 
+  // To calculate the duration we should get the duration
+  // of his childs activities
   @Override
   public Duration calc_duration() {
 
@@ -61,6 +72,8 @@ public class Project extends Activity {
     return null;
   }
 
+  // accepts the Printer visitor. printer can gets the information what it needs,
+  // to print on screen or write in a json file
   @Override
   public void accept(Printer printer) {
     if(this.getParent() != null) {
