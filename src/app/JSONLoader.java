@@ -12,6 +12,14 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+/**
+* static class for loading json files, then creates a new Activity tree.
+ * methods:
+ * -createTreeFromJSONfile: this method reads the json file
+ * -newTreeFromJSON: recursive method to create the tree.
+ * */
+
 public class JSONLoader {
 
   public static Activity createTreeFromJSONFile(String s) {
@@ -57,13 +65,13 @@ public class JSONLoader {
         for(int i=0;i < arr.length();i++){
           JSONObject objecte = arr.getJSONObject(i);
           Activity child =  newTreeFromJSON(newone, objecte);
-          newone.addActivity(child);
       }
         break;
       case "Task":
         newone = new Task(
             parent,
             obj.getString("name"),
+            obj.getBoolean("active"),
             start_time,
             end_time,
             duration

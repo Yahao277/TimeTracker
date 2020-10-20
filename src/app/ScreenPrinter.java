@@ -41,18 +41,20 @@ public class ScreenPrinter extends Printer {
   //Takes the project information for screen printing and then runs a printActivity() of  children.
   @Override
   public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, String parent) {
-    String holder = String.format(
-        "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
-        "Project",
-        name,
-        parent,
-        (start != null) ? start : "null",
-        (end != null) ? end : "null",
-        duration
-    );
+    if( start != null) {
+      String holder = String.format(
+          "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
+          "Project",
+          name,
+          parent,
+          start,
+          end,
+          duration
+      );
 
-    System.out.println(holder);
-    this.lastScreen += holder+'\n';
+      System.out.println(holder);
+      this.lastScreen += holder + '\n';
+    }
 
     for(Activity child: childs) {
       this.printActivity(child);
@@ -62,21 +64,21 @@ public class ScreenPrinter extends Printer {
 
   //Responsible for printing the job and also printInterval () from its list of intervals.
   @Override
-  public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, List<Interval> intervals, String parent) {
+  public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, boolean active ,List<Interval> intervals, String parent) {
+    if(start != null) {
+      String holder = String.format(
+          "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
+          "Task",
+          name,
+          parent,
+          start,
+          end,
+          duration
+      );
 
-    String holder = String.format(
-        "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
-        "Task",
-        name,
-        parent,
-        (start != null) ? start : "null",
-        (end != null) ? end : "null",
-        duration
-    );
-
-    System.out.println(holder);
-    this.lastScreen += holder+'\n';
-
+      System.out.println(holder);
+      this.lastScreen += holder + '\n';
+    }
     for(Interval interval : intervals){
       this.printInterval(interval);
     }
@@ -86,13 +88,18 @@ public class ScreenPrinter extends Printer {
   //prints start_time, end_time, and interval duration.
   @Override
   public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent) {
+
+    if(start == null){
+      return;
+    }
+
     String holder =  String.format(
         "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
         "Interval",
         "",
         parent,
-        (start != null) ? start : "null",
-        (end != null) ? end : "null",
+        start,
+        end,
         duration
     );
 

@@ -10,30 +10,42 @@ public class Task extends Activity{
 
   private List<Interval> intervals;
   private Interval curr_interval;
+  private boolean active;
 
   protected Task(Activity parent, String name) {
     super(parent, name);
 
     this.intervals = new ArrayList<>();
     this.curr_interval = null;
+    this.active = false;
   }
 
-  public Task(Activity parent, String name, LocalDateTime start, LocalDateTime end, Long duration){
+  public Task(Activity parent, String name, boolean active,LocalDateTime start, LocalDateTime end, Long duration){
     super(parent,name,start,end,duration);
 
     this.intervals = new ArrayList<>();
     this.curr_interval = null;
+
+    this.active = active;
+    if(active){
+      this.start();
+    }
   }
 
 
   private void startInterval() {
     this.curr_interval = new Interval(this);
+    this.active = true;
     this.intervals.add(this.curr_interval);
   }
 
   private void endInterval() {
+
     this.curr_interval = null;
+    this.active = false;
   }
+
+  public boolean getActive(){return this.active;}
 
   public void start() {
     this.startInterval();
@@ -78,7 +90,7 @@ public class Task extends Activity{
   //so that the Printer can paste the information necessary.
   @Override
   public void accept(Printer printer) {
-    printer.addTask(getName(),getStart_time(),getEnd_time(),getDuration(),intervals, this.getParent().getName());
+    printer.addTask(getName(),getStart_time(),getEnd_time(),getDuration(),getActive(),intervals, this.getParent().getName());
   }
 
   public void addInterval(Interval interval){

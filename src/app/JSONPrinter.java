@@ -94,7 +94,7 @@ public class JSONPrinter extends Printer {
   }
 
   @Override
-  public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, List<Interval> intervals, String parent) {
+  public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, boolean active,List<Interval> intervals, String parent) {
     // We add a task into our JSON array
     obj.put("name",name);
     obj.put("type","Task");
@@ -110,7 +110,7 @@ public class JSONPrinter extends Printer {
     }else{
       obj.put("EndTime",end);
     }
-
+    obj.put("active",active);
     obj.put("duration",duration);
 
     JSONObject aux = this.obj;
