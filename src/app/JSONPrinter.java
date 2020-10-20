@@ -36,8 +36,18 @@ public class JSONPrinter extends Printer {
 
   @Override
   public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent){
-    obj.put("StartTime",start);
-    obj.put("EndTime",end);
+    if(start == null){
+      obj.put("StartTime","null");
+    }else{
+      obj.put("StartTime",start);
+    }
+
+    if(end == null){
+      obj.put("EndTime","null");
+    }else{
+      obj.put("EndTime",end);
+    }
+
     obj.put("duration",duration);
   }
 
@@ -66,8 +76,19 @@ public class JSONPrinter extends Printer {
     obj = aux;
     obj.put("name",name);
     obj.put("type","Project");
-    obj.put("StartTime",start);
-    obj.put("EndTime",end);
+
+    if(start == null){
+      obj.put("StartTime","null");
+    }else{
+      obj.put("StartTime",start);
+    }
+
+    if(end == null){
+      obj.put("EndTime","null");
+    }else{
+      obj.put("EndTime",end);
+    }
+
     obj.put("duration",duration);
     obj.put("activities",array);
   }
@@ -77,8 +98,19 @@ public class JSONPrinter extends Printer {
     // We add a task into our JSON array
     obj.put("name",name);
     obj.put("type","Task");
-    obj.put("StartTime",start);
-    obj.put("EndTime",end);
+
+    if(start == null){
+      obj.put("StartTime","null");
+    }else{
+      obj.put("StartTime",start);
+    }
+
+    if(end == null){
+      obj.put("EndTime","null");
+    }else{
+      obj.put("EndTime",end);
+    }
+
     obj.put("duration",duration);
 
     JSONObject aux = this.obj;

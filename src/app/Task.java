@@ -18,6 +18,14 @@ public class Task extends Activity{
     this.curr_interval = null;
   }
 
+  public Task(Activity parent, String name, LocalDateTime start, LocalDateTime end, Long duration){
+    super(parent,name,start,end,duration);
+
+    this.intervals = new ArrayList<>();
+    this.curr_interval = null;
+  }
+
+
   private void startInterval() {
     this.curr_interval = new Interval(this);
     this.intervals.add(this.curr_interval);
@@ -71,6 +79,10 @@ public class Task extends Activity{
   @Override
   public void accept(Printer printer) {
     printer.addTask(getName(),getStart_time(),getEnd_time(),getDuration(),intervals, this.getParent().getName());
+  }
+
+  public void addInterval(Interval interval){
+    intervals.add(interval);
   }
 
   @Override

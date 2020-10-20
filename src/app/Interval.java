@@ -24,6 +24,13 @@ public class Interval implements Observer {
     this.started_at = LocalDateTime.now();
   }
 
+  public Interval(Task parent, LocalDateTime start, LocalDateTime last_tick, Long duration){
+    this.parent = parent;
+    this.last_tick = last_tick;
+    this.duration = Duration.ofSeconds(duration);
+    this.started_at = start;
+  }
+
   public void begin() {
     this.started_at = LocalDateTime.now();
     // Observe to clock

@@ -120,6 +120,55 @@ public class Main {
         System.out.print("Results!\n");
         System.out.print("=================================================================\n");
         printer.write();
+    }
+    public static void testLoadJSON() throws InterruptedException {
+        // Create clock
+        Clock clock = Clock.getInstance(2);
+
+        // To hold everything together
+        Project root_node = new Project(null, "ROOT_NODE");
+
+        Task transport = new Task(root_node, "transportation");
+
+
+
+        System.out.print("=================================================================\n");
+        System.out.print("Created Tree\n");
+        System.out.print("=================================================================\n");
+        Main.printTree(root_node, 0);
+        System.out.print("=================================================================\n");
+        System.out.print("=================================================================\n");
+        System.out.print("Initial stuff\n");
+        System.out.print("=================================================================\n");
+        System.out.print(root_node.toString());
+        System.out.print("=================================================================\n");
+
+        // Create a Screen Printer to see output
+        Printer printer = new ScreenPrinter(root_node);
+        Clock.getInstance().addObserver(printer);
+
+        // Start the test
+        System.out.print("=================================================================\n");
+        System.out.print("Starting test!\n");
+        System.out.print("=================================================================\n");
+        clock.start();
+
+        transport.start();
+        Thread.sleep(4000);
+        transport.end();
+
+        clock.stop();
+
+        Printer json = new JSONPrinter("testA.json");
+        json.printActivity(root_node);
+        json.write();
+
+        Activity root = JSONLoader.createTreeFromJSONFile("testA.json");
+        System.out.println("-----------------------------\n\n");
+        System.out.println(root.toString());
+        System.out.println("-----------------------------\n\n");
+        Main.printTree(root,0);
+
 
     }
 
@@ -173,14 +222,15 @@ public class Main {
       milestone1 = null;
 
       System.out.println("Loading tree from json");
-      root_node = Activity.createTreeFromJSONFile("test.json");
+      root_node = JSONLoader.createTreeFromJSONFile("test.json");
 
 
     }
     public static void main(String[] args) {
         // Main.testJSON();
         try {
-            Main.testB();
+            //Main.testB();
+            Main.testLoadJSON();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

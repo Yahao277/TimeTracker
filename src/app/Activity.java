@@ -40,52 +40,17 @@ abstract class Activity {
 
   }
 
-  public static Activity createTreeFromJSONFile(String s) {
+  protected Activity(Activity parent, String name, LocalDateTime start,LocalDateTime end,Long duration){
+    this.parent = parent;
+    this.name = name;
+    this.duration = Duration.ofSeconds(duration);
+    this.start_time = start;
+    this.end_time = end;
 
-    File json_file = new File(s);
-    InputStream in = null;
-
-    try {
-      in = new FileInputStream(json_file);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-      System.exit(1);
+    // Add myself to my parent list
+    if (this.parent != null) {
+      this.parent.addActivity(this);
     }
-
-    JSONObject obj = new JSONObject(new JSONTokener(in));
-
-    return Activity.newTreeFromJSON(null, obj);
-  }
-
-  private static Activity newTreeFromJSON(Activity parent, JSONObject obj) {
-
-    Activity newone;
-
-    // Create and add childs
-    switch (obj.getString("type")) {
-      case "Project":
-        newone = new Project(
-            parent,
-            obj.getString("name")
-        );
-        // TODO: Add childs
-        break;
-      case "Task":
-        newone = new Task(
-            parent,
-            obj.getString("name")
-        );
-        // TODO: Add intervals
-        break;
-      default:
-        throw new NotImplementedException();
-    }
-
-    // Set fields
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("");
-    newone.start_time = LocalDateTime.from(formatter.parse(obj.getString("start")));
-
-    return null;
   }
 
 

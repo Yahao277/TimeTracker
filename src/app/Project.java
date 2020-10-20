@@ -1,8 +1,10 @@
 package app;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Project class extends from the abstract class Activity,
  * we add a new private attribute (a list of activities childs)
@@ -23,6 +25,13 @@ public class Project extends Activity {
     this.childs = new ArrayList<>();
     this.setDuration(Duration.ofSeconds(0));
   }
+
+  public Project(Activity parent, String name, LocalDateTime start, LocalDateTime end, Long duration){
+    super(parent,name,start,end,duration);
+
+    this.childs = new ArrayList<>();
+  }
+
 
   /**
    To calculate the duration we should get the duration
