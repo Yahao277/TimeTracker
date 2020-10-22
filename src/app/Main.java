@@ -171,6 +171,7 @@ public class Main {
         Project sw_testing = new Project(root_node, "Software testing");
         Project databases = new Project(root_node, "Databases");
         Task transport = new Task(root_node, "transportation");
+
         // SW design
         Project problems = new Project(sw_desing, "Problems");
         Project time_tracker = new Project(sw_desing, "project time tracker");

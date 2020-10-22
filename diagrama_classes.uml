@@ -16,13 +16,14 @@ together {
 Main .. Activity : "Creates"
 Main .. Clock : "Creates"
 Main . Printer : "Uses|Creates"
+JSONLoader . Main : "Uses|Creates"
 
 
 Activity "1" o-- Activity
 Project "1" o-- "N" Activity
 Task "1" *-- "N" Interval
 
-Interval "1" o-- Task
+Interval "1" --o Task
 Interval "1" o-- Clock
 
 'Classes
@@ -179,6 +180,11 @@ class JSONPrinter extends Printer {
     + void addTask(name : String, start : LocalDateTime, end : LocalDateTime, duration : long, intervals : List, parent : String)
     + void addInterval(start : LocalDateTime, end : LocalDateTime, duration : long, parent : String)
     + void write()
+}
+
+class JSONLoader {
+    + {static} Activity createTreeFromJSONFile(String s)
+    + {static} Activity newTreeFromJSON(Activity parent, JSONObject obj)
 }
 
 
