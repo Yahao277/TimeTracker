@@ -40,13 +40,13 @@ public class ScreenPrinter extends Printer {
 
   //Takes the project information for screen printing and then runs a printActivity() of  children.
   @Override
-  public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, String parent) {
+  public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, Activity parent) {
     if( start != null) {
       String holder = String.format(
           "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
           "Project",
           name,
-          parent,
+          (parent == null) ? "null" : parent.getName() ,
           start,
           end,
           duration

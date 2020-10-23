@@ -89,12 +89,8 @@ public class Project extends Activity {
   */
   @Override
   public void accept(Printer printer) {
-    if(this.getParent() != null) {
-      printer.addProject(getName(), getStart_time(), getEnd_time(), getDuration(), childs, this.getParent().getName());
-    }
-    else{
-      printer.addProject(getName(), getStart_time(), getEnd_time(), getDuration(), childs, "null");
-    }
+      printer.addProject(getName(), getStart_time(), getEnd_time(), getDuration(), childs, this.getParent());
+
   }
 
   @Override

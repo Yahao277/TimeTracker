@@ -63,7 +63,7 @@ public class JSONPrinter extends Printer {
   } // Visitor implementation
 
   @Override
-  public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, String parent) {
+  public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, Activity parent) {
   // We add a project into our JSON array
     JSONObject aux = this.obj;
     JSONArray array = new JSONArray();
