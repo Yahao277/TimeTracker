@@ -17,7 +17,7 @@ public class Main {
             aux = root_node.getChild(i++);
         }
     }
-    public static void testB() throws InterruptedException {
+    public static Activity testB() throws InterruptedException {
 
         // Create clock
         Clock clock = Clock.getInstance(2);
@@ -91,6 +91,8 @@ public class Main {
         System.out.print("Results!\n");
         System.out.print("=================================================================\n");
         printer.write();
+
+        return root_node;
     }
     public static void testLoadJSON() throws InterruptedException {
         // Create clock
@@ -214,15 +216,41 @@ public class Main {
 
       System.out.println("Loading tree from json");
       root_node = JSONLoader.createTreeFromJSONFile("test.json");
-
     }
-    public static void main(String[] args) {
-        // Main.testJSON();
+
+    public static void fita1() {
+        Activity root;
         try {
-            //Main.testB();
-            Main.testLoadJSON();
+            root = Main.testB();
         } catch (InterruptedException e) {
             e.printStackTrace();
+            return;
         }
+
+        Printer json_printer = new JSONPrinter("fita1.json");
+
+        System.out.print("=================================================================\n");
+        System.out.print("Saving to fita1.json!\n");
+        System.out.print("=================================================================\n");
+
+        json_printer.printActivity(root);
+        json_printer.write();
+
+        System.out.print("=================================================================\n");
+        System.out.print("Loading from fita1.json!\n");
+        System.out.print("=================================================================\n");
+        root = JSONLoader.createTreeFromJSONFile("fita1.json");
+
+        System.out.print("=================================================================\n");
+        System.out.print("Results!\n");
+        System.out.print("=================================================================\n");
+        Printer p = new ScreenPrinter(root);
+        p.printActivity(root);
+
+    }
+
+    public static void main(String[] args) {
+        // Main.testJSON();
+        Main.fita1();
     }
 }
