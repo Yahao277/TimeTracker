@@ -1,17 +1,19 @@
+/**
+ * File: JSONPrinter.java
+ * Description: Class that turns JSON objects into strings and
+ * the other way around
+ */
 package app;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Observable;
 
-
 public class JSONPrinter extends Printer {
-  // Class that turns JSON objects into strings and the other way around
   private JSONObject obj;
   private FileWriter file;
   private String path;
@@ -127,6 +129,7 @@ public class JSONPrinter extends Printer {
 
   @Override
   public void update(Observable o, Object arg) {
-
+    // We leave it empty as we dont want this implementation to
+    // do anything if it gets ever set as an observer
   }
 }

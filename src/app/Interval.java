@@ -1,3 +1,8 @@
+/**
+ * File: Interval.java
+ * Description: Class that represents a time interval and observes
+ * the clock to update itself.
+ */
 package app;
 
 import java.time.Duration;
@@ -6,7 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Interval implements Observer {
-  // Class that represents a time interval and observes the clock to update itself
+
   private Task parent;
 
   public LocalDateTime getEndTime() {
@@ -47,7 +52,8 @@ public class Interval implements Observer {
   }
 
   @Override
-  public void update(Observable o, Object arg) { // Updates itself and updates the parent Task
+  public void update(Observable o, Object arg) { // Updates itself and propagates
+                                                 // the changes up the tree
         Clock c = (Clock) o;
         this.last_tick = c.getLatTick();
         this.duration = this.duration.plusSeconds(c.getFreq());

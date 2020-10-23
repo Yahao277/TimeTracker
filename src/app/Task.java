@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-// Child class of Activity. Each task has a duration, start time and end time, represented with the interval class. Unlike project, a task has no child class.
+// Child class of Activity. Each task has a duration, start time and end time, represented with the interval class. Unlike project, a task has no children.
 public class Task extends Activity{
 
   private List<Interval> intervals;
@@ -97,6 +97,8 @@ public class Task extends Activity{
     intervals.add(interval);
   }
 
+  // We leave the following methods empty as this class as the
+  // leaf in the composite won't have any children
   @Override
   public void addActivity(Activity a) {
 

@@ -1,3 +1,8 @@
+/**
+ * File: main.java
+ * Description: Main entry point of the program. Also contains some
+ * tests and helper functions.
+ */
 package app;
 
 import java.io.IOException;
@@ -6,7 +11,6 @@ import java.time.LocalDateTime;
 public class Main {
 
     public static void printTree(Activity root_node, int level) {
-
         String indent = new String(new char[level]).replace('\0','\t');
         System.out.println(indent + root_node.getName());
 
@@ -17,6 +21,7 @@ public class Main {
             aux = root_node.getChild(i++);
         }
     }
+
     public static Activity testB() throws InterruptedException {
 
         // Create clock
@@ -94,6 +99,7 @@ public class Main {
 
         return root_node;
     }
+
     public static void testLoadJSON() throws InterruptedException {
         // Create clock
         Clock clock = Clock.getInstance(2);
@@ -160,65 +166,9 @@ public class Main {
         System.out.println(root.toString());
         System.out.println("-----------------------------\n\n");
         Main.printTree(root,0);
-
-
     }
 
-    public static void testJSON() {
-        // To hold everything together
-        Activity root_node = new Project(null, "ROOT_NODE");
-
-        // First level
-        Project sw_desing = new Project(root_node, "Software design");
-        Project sw_testing = new Project(root_node, "Software testing");
-        Project databases = new Project(root_node, "Databases");
-        Task transport = new Task(root_node, "transportation");
-
-        // SW design
-        Project problems = new Project(sw_desing, "Problems");
-        Project time_tracker = new Project(sw_desing, "project time tracker");
-
-        // Problems
-        Task list1 = new Task(problems, "first list");
-        Task list2 = new Task(problems, "second list");
-
-        // Time tracker
-        Task handout = new Task(time_tracker,"Read handout");
-        Task milestone1 = new Task(time_tracker, "first milestone");
-
-        System.out.print("=================================================================\n");
-        System.out.print("Created Tree\n");
-        System.out.print("=================================================================\n");
-        Main.printTree(root_node, 0);
-        System.out.print("=================================================================\n");
-
-      System.out.print("=================================================================\n");
-      System.out.print("Starting test!\n");
-      System.out.print("=================================================================\n");
-      System.out.println("Creating JSON file");
-
-      Printer json = new JSONPrinter("test.json");
-      json.printActivity(root_node);
-      json.write();
-
-      System.out.println("Destroying tree");
-      root_node = null;
-      sw_desing = null;
-      sw_testing = null;
-      databases = null;
-      transport = null;
-      problems = null;
-      time_tracker = null;
-      list1 = null;
-      list2 = null;
-      handout = null;
-      milestone1 = null;
-
-      System.out.println("Loading tree from json");
-      root_node = JSONLoader.createTreeFromJSONFile("test.json");
-    }
-
-    public static void fita1() {
+    public static void milestone1() {
         Activity root;
         try {
             root = Main.testB();
@@ -251,6 +201,6 @@ public class Main {
 
     public static void main(String[] args) {
         // Main.testJSON();
-        Main.fita1();
+        Main.milestone1();
     }
 }

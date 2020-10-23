@@ -8,17 +8,9 @@
 
 package app;
 
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 
 abstract class Activity {
 
@@ -62,8 +54,10 @@ abstract class Activity {
   abstract public void rmActivity(Activity a);
   abstract public Activity getChild(int nth_child);
 
+  // Visitor pattern
   public abstract void accept(Printer printer);
 
+  // getters and setters
   public Activity getParent() {
     return parent;
   }

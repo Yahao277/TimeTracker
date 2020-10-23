@@ -1,14 +1,9 @@
 package app;
-import app.Activity;
-import app.Interval;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
+
 
 //  Child class of printer. Responsible for screen printing the entire tree from root.To make it print periodically,
 //  in the update() method the of Observer interface, it runs: "this.printActivity (root)".
