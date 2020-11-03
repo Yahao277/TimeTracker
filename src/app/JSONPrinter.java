@@ -3,22 +3,23 @@
  * Description: Class that turns JSON objects into strings and
  * the other way around
  */
+
 package app;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Observable;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class JSONPrinter extends Printer {
   private JSONObject obj;
-  private FileWriter file;
-  private String path;
+  private final String path;
 
-  public JSONPrinter(String path){ // Constructor
+  public JSONPrinter(String path) { // Constructor
     this.path = path;
     this.obj = new JSONObject();
   }
@@ -26,7 +27,7 @@ public class JSONPrinter extends Printer {
   @Override
   public void write() { // We write the JSON object into a file
     try {
-      file = new FileWriter(path);
+      FileWriter file = new FileWriter(path);
       file.write(obj.toString());
       file.flush();
       file.close();
@@ -37,20 +38,20 @@ public class JSONPrinter extends Printer {
   }
 
   @Override
-  public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent){
-    if(start == null){
-      obj.put("StartTime","null");
-    }else{
-      obj.put("StartTime",start);
+  public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent) {
+    if (start == null) {
+      obj.put("StartTime", "null");
+    } else {
+      obj.put("StartTime", start);
     }
 
-    if(end == null){
-      obj.put("EndTime","null");
-    }else{
-      obj.put("EndTime",end);
+    if (end == null) {
+      obj.put("EndTime", "null");
+    } else {
+      obj.put("EndTime", end);
     }
 
-    obj.put("duration",duration);
+    obj.put("duration", duration);
   }
 
   @Override
@@ -65,66 +66,68 @@ public class JSONPrinter extends Printer {
   } // Visitor implementation
 
   @Override
-  public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs, Activity parent) {
-  // We add a project into our JSON array
+  public void addProject(String name, LocalDateTime start, LocalDateTime end,
+                         long duration, List<Activity> childs, Activity parent) {
+    // We add a project into our JSON array
     JSONObject aux = this.obj;
     JSONArray array = new JSONArray();
 
-    for(Activity child: childs){
+    for (Activity child : childs) {
       this.obj = new JSONObject();
       this.printActivity(child);
       array.put(this.obj);
     }
     obj = aux;
-    obj.put("name",name);
-    obj.put("type","Project");
+    obj.put("name", name);
+    obj.put("type", "Project");
 
-    if(start == null){
-      obj.put("StartTime","null");
-    }else{
-      obj.put("StartTime",start);
+    if (start == null) {
+      obj.put("StartTime", "null");
+    } else {
+      obj.put("StartTime", start);
     }
 
-    if(end == null){
-      obj.put("EndTime","null");
-    }else{
-      obj.put("EndTime",end);
+    if (end == null) {
+      obj.put("EndTime", "null");
+    } else {
+      obj.put("EndTime", end);
     }
 
-    obj.put("duration",duration);
-    obj.put("activities",array);
+    obj.put("duration", duration);
+    obj.put("activities", array);
   }
 
   @Override
-  public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, boolean active,List<Interval> intervals, String parent) {
+  public void addTask(String name, LocalDateTime start, LocalDateTime end,
+                      long duration, boolean active, List<Interval> intervals, String parent) {
     // We add a task into our JSON array
-    obj.put("name",name);
-    obj.put("type","Task");
+    obj.put("name", name);
+    obj.put("type", "Task");
 
-    if(start == null){
-      obj.put("StartTime","null");
-    }else{
-      obj.put("StartTime",start);
+    if (start == null) {
+      obj.put("StartTime", "null");
+    } else {
+      obj.put("StartTime", start);
     }
 
-    if(end == null){
-      obj.put("EndTime","null");
-    }else{
-      obj.put("EndTime",end);
+    if (end == null) {
+      obj.put("EndTime", "null");
+    } else {
+      obj.put("EndTime", end);
     }
-    obj.put("active",active);
-    obj.put("duration",duration);
+    obj.put("active", active);
+    obj.put("duration", duration);
 
     JSONObject aux = this.obj;
     JSONArray array = new JSONArray();
 
-    for(Interval interval: intervals){
+    for (Interval interval : intervals) {
       this.obj = new JSONObject();
       this.printInterval(interval);
       array.put(this.obj);
     }
     obj = aux;
-    obj.put("intervals",array);
+    obj.put("intervals", array);
   }
 
   @Override

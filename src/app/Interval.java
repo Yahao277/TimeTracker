@@ -3,6 +3,7 @@
  * Description: Class that represents a time interval and observes
  * the clock to update itself.
  */
+
 package app;
 
 import java.time.Duration;
@@ -11,33 +12,32 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Interval implements Observer {
-
-  private Task parent;
+  private final Task parent;
 
   public LocalDateTime getEndTime() {
-    return last_tick;
+    return lastTick;
   }
 
-  private LocalDateTime started_at;
-  private LocalDateTime last_tick;
+  private LocalDateTime startedAt;
+  private LocalDateTime lastTick;
   private Duration duration;
 
   public Interval(Task parent) { // Constructor
     this.parent = parent;
-    this.last_tick = null;
+    this.lastTick = null;
     this.duration = Duration.ZERO;
-    this.started_at = LocalDateTime.now();
+    this.startedAt = LocalDateTime.now();
   }
 
-  public Interval(Task parent, LocalDateTime start, LocalDateTime last_tick, Long duration){
+  public Interval(Task parent, LocalDateTime start, LocalDateTime lastTick, Long duration) {
     this.parent = parent;
-    this.last_tick = last_tick;
+    this.lastTick = lastTick;
     this.duration = Duration.ofSeconds(duration);
-    this.started_at = start;
+    this.startedAt = start;
   }
 
   public void begin() {
-    this.started_at = LocalDateTime.now();
+    this.startedAt = LocalDateTime.now();
     // Observe to clock
     Clock.getInstance().addObserver(this);
   }
@@ -51,21 +51,21 @@ public class Interval implements Observer {
     return this.duration;
   }
 
+  // Updates itself and propagates the changes up the tree
   @Override
-  public void update(Observable o, Object arg) { // Updates itself and propagates
-                                                 // the changes up the tree
-        Clock c = (Clock) o;
-        this.last_tick = c.getLatTick();
-        this.duration = this.duration.plusSeconds(c.getFreq());
-        this.parent.propagateTime(c.getFreq(), this);
+  public void update(Observable o, Object arg) {
+    Clock c = (Clock) o;
+    this.lastTick = c.getLatTick();
+    this.duration = this.duration.plusSeconds(c.getFreq());
+    this.parent.propagateTime(c.getFreq(), this);
 
   }
 
-  public void accept(Printer printer){ // Visitor implementation
-    printer.addInterval(started_at,last_tick,getDuration().getSeconds(), this.parent.getName());
+  public void accept(Printer printer) { // Visitor implementation
+    printer.addInterval(startedAt, lastTick, getDuration().getSeconds(), this.parent.getName());
   }
 
   public LocalDateTime getStartTime() {
-    return this.started_at;
+    return this.startedAt;
   }
 }

@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 
 abstract class Activity {
 
-  private Activity parent;
+  private final Activity parent;
   private String name;
-  private LocalDateTime start_time;
-  private LocalDateTime end_time;
+  private LocalDateTime startTime;
+  private LocalDateTime endTime;
   private Duration duration;
 
   protected Activity(Activity parent, String name) {
@@ -32,12 +32,13 @@ abstract class Activity {
 
   }
 
-  protected Activity(Activity parent, String name, LocalDateTime start,LocalDateTime end,Long duration){
+  protected Activity(Activity parent, String name,
+                     LocalDateTime start, LocalDateTime end, Long duration) {
     this.parent = parent;
     this.name = name;
     this.duration = Duration.ofSeconds(duration);
-    this.start_time = start;
-    this.end_time = end;
+    this.startTime = start;
+    this.endTime = end;
 
     // Add myself to my parent list
     if (this.parent != null) {
@@ -47,12 +48,15 @@ abstract class Activity {
 
 
   // Composite functions
-  abstract public Duration calc_duration();
-  abstract public String toString();
-  abstract public String toJSON();
-  abstract public void addActivity(Activity a);
-  abstract public void rmActivity(Activity a);
-  abstract public Activity getChild(int nth_child);
+  public abstract Duration calc_duration();
+
+  public abstract String toString();
+
+  public abstract void addActivity(Activity a);
+
+  public abstract void rmActivity(Activity a);
+
+  public abstract Activity getChild(int nthChild);
 
   // Visitor pattern
   public abstract void accept(Printer printer);
@@ -70,20 +74,20 @@ abstract class Activity {
     this.name = name;
   }
 
-  public LocalDateTime getStart_time() {
-    return start_time;
+  public LocalDateTime getStartTime() {
+    return startTime;
   }
 
-  protected void setStart_time(LocalDateTime start_time) {
-    this.start_time = start_time;
+  protected void setStartTime(LocalDateTime startTime) {
+    this.startTime = startTime;
   }
 
-  public LocalDateTime getEnd_time() {
-    return end_time;
+  public LocalDateTime getEndTime() {
+    return endTime;
   }
 
-  protected void setEnd_time(LocalDateTime end_time) {
-    this.end_time = end_time;
+  protected void setEndTime(LocalDateTime endTime) {
+    this.endTime = endTime;
   }
 
   public long getDuration() {
@@ -99,7 +103,7 @@ abstract class Activity {
     this.duration = duration;
   }
 
-  /**
+  /*
    * Propagate upwards the structure an increment of time.
    * @param lapse The amount of time to increment
    * @param i The interval that comes from
@@ -107,8 +111,8 @@ abstract class Activity {
   public void propagateTime(int lapse, Interval i) {
 
     // Check if it has started before
-    if (this.start_time == null) {
-      this.start_time = i.getStartTime();
+    if (this.startTime == null) {
+      this.startTime = i.getStartTime();
     }
 
     // Set duration if it hasn't been set before
@@ -117,7 +121,7 @@ abstract class Activity {
     }
 
     // Update duration and end timestamp
-    this.end_time = i.getEndTime();
+    this.endTime = i.getEndTime();
     this.duration = this.duration.plusSeconds(lapse);
 
     // Tell parents

@@ -5,10 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*
  * Project class extends from the abstract class Activity,
- * we add a new private attribute (a list of activities childs)
- *
+ * we add a new private attribute (a list of activities childs).
  * comparing to the Activity class, the two main changes are:
  * - Possibility of Adding new subtasks or subprojects, or remove it.
  * - The calculation of duration is based on the sum of
@@ -17,7 +16,7 @@ import java.util.List;
 
 public class Project extends Activity {
 
-  private List<Activity> childs;
+  private final List<Activity> childs;
 
   public Project(Activity parent, String name) {
     super(parent, name);
@@ -26,12 +25,12 @@ public class Project extends Activity {
     this.setDuration(Duration.ofSeconds(0));
   }
 
-  public Project(Activity parent, String name, LocalDateTime start, LocalDateTime end, Long duration){
-    super(parent,name,start,end,duration);
+  public Project(Activity parent, String name, LocalDateTime start,
+                 LocalDateTime end, Long duration) {
+    super(parent, name, start, end, duration);
 
     this.childs = new ArrayList<>();
   }
-
 
   /**
    To calculate the duration we should get the duration
@@ -45,7 +44,7 @@ public class Project extends Activity {
 
     // Iterate between children and accumulate
     for (Activity a : this.childs) {
-       acc = acc.plus(a.calc_duration());
+      acc = acc.plus(a.calc_duration());
     }
 
     this.setDuration(acc);
@@ -65,8 +64,8 @@ public class Project extends Activity {
           "%-8s: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds\n",
           "Project",
           this.getName(),
-          (this.getStart_time() != null) ? this.getStart_time() : "null",
-          (this.getEnd_time() != null) ? this.getEnd_time() : "null",
+          (this.getStartTime() != null) ? this.getStartTime() : "null",
+          (this.getEndTime() != null) ? this.getEndTime() : "null",
           this.getDuration()
       );
     }
@@ -78,18 +77,14 @@ public class Project extends Activity {
     return holder;
   }
 
-  @Override
-  public String toJSON() {
-    return null;
-  }
-
   /**
    accepts the Printer visitor. printer can gets the information what it needs,
    to print on screen or write in a json file
   */
   @Override
   public void accept(Printer printer) {
-      printer.addProject(getName(), getStart_time(), getEnd_time(), getDuration(), childs, this.getParent());
+    printer.addProject(getName(), getStartTime(), getEndTime(),
+          getDuration(), childs, this.getParent());
 
   }
 
@@ -104,10 +99,10 @@ public class Project extends Activity {
   }
 
   @Override
-  public Activity getChild(int nth_child) {
-    if (nth_child > (this.childs.size()-1) || nth_child < 0) {
+  public Activity getChild(int nthChild) {
+    if (nthChild > (this.childs.size() - 1) || nthChild < 0) {
       return null;
     }
-    return this.childs.get(nth_child);
+    return this.childs.get(nthChild);
   }
 }

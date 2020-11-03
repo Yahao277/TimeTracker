@@ -17,6 +17,7 @@ Main .. Activity : "Creates"
 Main .. Clock : "Creates"
 Main . Printer : "Uses|Creates"
 JSONLoader . Main : "Uses|Creates"
+Main . Search : "Uses|Creates"
 
 
 Activity "1" o-- Activity
@@ -25,6 +26,8 @@ Task "1" *-- "N" Interval
 
 Interval "1" --o Task
 Interval "1" o-- Clock
+
+
 
 'Classes
 ''Entry point
@@ -42,8 +45,9 @@ abstract class Activity {
     'Private vars
     - parent : Activity
     - name : String
-    - start_time : LocalDateTime
-    - end_time : LocalDateTime
+    - tags : List<String>
+    - startTime : LocalDateTime
+    - endTime : LocalDateTime
     - duration : Duration
     
     'Constructor
@@ -54,6 +58,7 @@ abstract class Activity {
     {abstract} + Duration calc_duration()
     {abstract} + String toString()
     {abstract} + void accept(p : Printer)
+    {abstract} + void acceptSearchTag(s: SearchTag)
     ''Tree edition
     {abstract} + void addActivity(a : Activity)
     {abstract} + void rmActivity(a º: Activity)
@@ -78,7 +83,7 @@ class Project extends Activity {
 
     + void addActivity(a : Activity)
     + void rmActivity(a : Activity)
-    + Activity getChild(nth_child : int)
+    + Activity getChild(nthChild : int)
 }
 
 class Task extends Activity {
@@ -110,8 +115,8 @@ class Interval implements Observer {
 
     'Private vars
     - parent : Task
-    - started_at : LocalDateTime
-    - last_tick : LocalDateTime
+    - startedAt : LocalDateTime
+    - lastTick : LocalDateTime
     - clock : Clock
     
 
@@ -136,7 +141,7 @@ class Clock extends Observable {
     'Private vars
     - timer : Timer
     - freq : int
-    - last_tick : LocalDateTime
+    - lastTick : LocalDateTime
 
     'Constructor
     Clock(freq_seconds : int)
@@ -185,6 +190,27 @@ class JSONPrinter extends Printer {
 class JSONLoader {
     + {static} Activity createTreeFromJSONFile(String s)
     + {static} Activity newTreeFromJSON(Activity parent, JSONObject obj)
+}
+
+interface Search
+{
+    + void visitActivity(Activity node)
+    + void addProject(Project p)
+    + void addTask(Task t)
+}
+
+class SearchTag implements Search{
+    - List<Activity> resultsFound
+    + void visitActivity(Activity node)
+    + void addProject(Project p)
+    + void addTask(Task t)
+}
+
+class SearchTime implements Search{
+   - Activity tree
+    + void visitActivity(Activity node)
+    + void addProject(Project p)
+    + void addTask(Task t)
 }
 
 

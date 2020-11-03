@@ -10,7 +10,7 @@
 package app;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,20 +19,20 @@ public class Clock extends Observable {
   private static final int DEFAULT_FREQ = 2;
   private static volatile Clock uniqueInstance = null;
 
-  private LocalDateTime last_tick;
+  private LocalDateTime lastTick;
   private final int freq;
-  private Timer timer;
+  private final Timer timer;
 
 
-  /**
+  /*
    * Get an instance, adn if it is the first one to be created
    * set the clock time between notifications send to the observers
    * @param freq time between notifications
    * @return
    */
-  public static synchronized Clock getInstance(int freq){
-    if(uniqueInstance == null){
-      synchronized ( Clock.class ) {
+  public static synchronized Clock getInstance(int freq) {
+    if (uniqueInstance == null) {
+      synchronized (Clock.class) {
         uniqueInstance = new Clock(freq);
       }
     }
@@ -46,8 +46,8 @@ public class Clock extends Observable {
    * @return
    */
   public static synchronized Clock getInstance() {
-    if(uniqueInstance == null){
-      synchronized ( Clock.class ) {
+    if (uniqueInstance == null) {
+      synchronized (Clock.class) {
         uniqueInstance = new Clock(Clock.DEFAULT_FREQ);
       }
     }
@@ -55,31 +55,31 @@ public class Clock extends Observable {
   }
 
   /**
-   * Private constructor as in the Singleton pattern
-   * @param freq_seconds
+   * Private constructor as in the Singleton pattern.
+   * @param freqSeconds time frequence
    */
-  private Clock(int freq_seconds) {
-    this.freq = freq_seconds;
-    this.last_tick = LocalDateTime.now();
+  private Clock(int freqSeconds) {
+    this.freq = freqSeconds;
+    this.lastTick = LocalDateTime.now();
     this.timer = new Timer();
   }
 
   /**
    * Start the clock
    */
-  public void start(){
-    TimerTask task = new TimerTask(){
-      public void run(){
+  public void start() {
+    TimerTask task = new TimerTask() {
+      public void run() {
         update();
       }
     };
-    timer.scheduleAtFixedRate(task,0,1000*this.freq);
+    timer.scheduleAtFixedRate(task, 0, 1000 * this.freq);
   }
 
   /**
    * Stop the clock
    */
-  public void stop(){
+  public void stop() {
     timer.cancel();
   }
 
@@ -88,13 +88,13 @@ public class Clock extends Observable {
    * Update time and let everyone know.
    */
   public void update() {
-    this.last_tick = LocalDateTime.now();
+    this.lastTick = LocalDateTime.now();
     this.setChanged();
     this.notifyObservers(this);
   }
 
   public LocalDateTime getLatTick() {
-    return this.last_tick;
+    return this.lastTick;
   }
 
   public int getFreq() {
