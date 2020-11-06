@@ -192,21 +192,20 @@ class JSONLoader {
     + {static} Activity newTreeFromJSON(Activity parent, JSONObject obj)
 }
 
-interface Search
-{
+interface Search {
     + void visitActivity(Activity node)
     + void addProject(Project p)
     + void addTask(Task t)
 }
 
-class SearchTag implements Search{
+class SearchTag implements Search {
     - List<Activity> resultsFound
     + void visitActivity(Activity node)
     + void addProject(Project p)
     + void addTask(Task t)
 }
 
-class SearchTime implements Search{
+class SearchTime implements Search {
    - Activity tree
     + void visitActivity(Activity node)
     + void addProject(Project p)
