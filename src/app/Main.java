@@ -7,6 +7,9 @@
 package app;
 
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
   public static void printTree(Activity rootNode, int level) {
@@ -197,8 +200,25 @@ public class Main {
 
   }
 
+  static void testLog() {
+    // Creation
+    Logger log = (Logger) LoggerFactory.getLogger("app.Main");
+
+    // Setting level
+    // log.setLevel(Level.ERROR);
+
+    // Login
+    log.error("err");
+    log.warn("waaar");
+    log.info("info");
+    log.debug("debug");
+    log.trace("trace");
+
+  }
+
   public static void main(String[] args) {
     // Main.testJSON();
-    Main.milestone1();
+    //Main.milestone1();
+    Main.testLog();
   }
 }

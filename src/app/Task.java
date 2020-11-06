@@ -1,9 +1,13 @@
 package app;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 
 // Child class of Activity. Each task has a duration,
 // start time and end time, represented with the interval class.
@@ -12,6 +16,7 @@ public class Task extends Activity {
   private final List<Interval> intervals;
   private Interval currInterval;
   private boolean active;
+  private static Logger logger;
 
   protected Task(Activity parent, String name) {
     super(parent, name);
@@ -19,6 +24,7 @@ public class Task extends Activity {
     this.intervals = new ArrayList<>();
     this.currInterval = null;
     this.active = false;
+    this.logger = LoggerFactory.getLogger(Task.class);
   }
 
   public Task(Activity parent, String name, boolean active,
@@ -52,6 +58,7 @@ public class Task extends Activity {
   }
 
   public void start() {
+    this.logger.debug("starting interval");
     this.startInterval();
     this.currInterval.begin();
   }
