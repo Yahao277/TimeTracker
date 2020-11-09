@@ -12,26 +12,35 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Observable;
+
+import ch.qos.logback.classic.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 
 public class JSONPrinter extends Printer {
+
+  private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.printer.JSONprinter");
+
   private JSONObject obj;
   private final String path;
 
   public JSONPrinter(String path) { // Constructor
+    this.logger.trace("New JSONPrinter");
     this.path = path;
     this.obj = new JSONObject();
   }
 
   @Override
   public void write() { // We write the JSON object into a file
+    this.logger.debug("Writing JSON into file");
     try {
       FileWriter file = new FileWriter(path);
       file.write(obj.toString());
       file.flush();
       file.close();
     } catch (IOException e) {
+      this.logger.error("Can not creat and write a new file.");
       e.printStackTrace();
     }
 
@@ -39,6 +48,9 @@ public class JSONPrinter extends Printer {
 
   @Override
   public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent) {
+
+    this.logger.debug("Adding Interval from"+parent);
+
     if (start == null) {
       obj.put("StartTime", "null");
     } else {
@@ -56,6 +68,7 @@ public class JSONPrinter extends Printer {
 
   @Override
   public void printActivity(Activity root) { // Visitor implementation
+    this.logger.debug("Visiting Activity");
     root.accept(this);
 
   }
@@ -68,6 +81,7 @@ public class JSONPrinter extends Printer {
   @Override
   public void addProject(String name, LocalDateTime start, LocalDateTime end,
                          long duration, List<Activity> childs, Activity parent) {
+    this.logger.debug("Adding activity: "+name);
     // We add a project into our JSON array
     JSONObject aux = this.obj;
     JSONArray array = new JSONArray();
@@ -100,6 +114,7 @@ public class JSONPrinter extends Printer {
   @Override
   public void addTask(String name, LocalDateTime start, LocalDateTime end,
                       long duration, boolean active, List<Interval> intervals, String parent) {
+    this.logger.debug("Adding task: "+name);
     // We add a task into our JSON array
     obj.put("name", name);
     obj.put("type", "Task");
@@ -132,6 +147,7 @@ public class JSONPrinter extends Printer {
 
   @Override
   public void update(Observable o, Object arg) {
+    this.logger.warn("Update should not be reached");
     // We leave it empty as we dont want this implementation to
     // do anything if it gets ever set as an observer
   }

@@ -1,7 +1,7 @@
 package app;
 
 import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -13,24 +13,26 @@ import java.util.List;
 // start time and end time, represented with the interval class.
 // Unlike project, a task has no children.
 public class Task extends Activity {
+  private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.activity.task");
   private final List<Interval> intervals;
   private Interval currInterval;
   private boolean active;
-  private static Logger logger;
+
 
   protected Task(Activity parent, String name) {
     super(parent, name);
 
+    this.logger.trace("New Task");
     this.intervals = new ArrayList<>();
     this.currInterval = null;
     this.active = false;
-    this.logger = LoggerFactory.getLogger(Task.class);
   }
 
   public Task(Activity parent, String name, boolean active,
               LocalDateTime start, LocalDateTime end, Long duration) {
     super(parent, name, start, end, duration);
 
+    this.logger.trace("New Task from JSON");
     this.intervals = new ArrayList<>();
     this.currInterval = null;
 
@@ -58,12 +60,14 @@ public class Task extends Activity {
   }
 
   public void start() {
+    this.logger.debug("Creating and starting interval");
     this.logger.debug("starting interval");
     this.startInterval();
     this.currInterval.begin();
   }
 
   public void end() {
+    this.logger.debug("Stoping interval");
     this.currInterval.end();
     this.endInterval();
   }
@@ -96,6 +100,7 @@ public class Task extends Activity {
   //so that the Printer can paste the information necessary.
   @Override
   public void accept(Printer printer) {
+    this.logger.debug("Accepting visitor");
     printer.addTask(getName(), getStartTime(), getEndTime(), getDuration(),
         getActive(), intervals, this.getParent().getName());
   }

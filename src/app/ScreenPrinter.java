@@ -1,5 +1,8 @@
 package app;
 
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Observable;
@@ -12,6 +15,7 @@ import java.util.Observable;
 
 public class ScreenPrinter extends Printer {
 
+  private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.printer.Screenprinter");
   private final Activity root;
   private String lastScreen;
 
@@ -38,6 +42,8 @@ public class ScreenPrinter extends Printer {
   @Override
   public void addProject(String name, LocalDateTime start, LocalDateTime end,
                          long duration, List<Activity> childs, Activity parent) {
+
+    this.logger.debug("Adding project: "+name);
     if (start != null) {
       String holder = String.format(
           "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
@@ -63,6 +69,7 @@ public class ScreenPrinter extends Printer {
   @Override
   public void addTask(String name, LocalDateTime start, LocalDateTime end,
                       long duration, boolean active, List<Interval> intervals, String parent) {
+    this.logger.debug("Adding task: "+name);
     if (start != null) {
       String holder = String.format(
           "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
@@ -87,6 +94,7 @@ public class ScreenPrinter extends Printer {
   @Override
   public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent) {
 
+    this.logger.debug("Adding interval from: "+parent);
     if (start == null) {
       return;
     }
@@ -113,6 +121,7 @@ public class ScreenPrinter extends Printer {
 
   @Override
   public void update(Observable o, Object arg) {
+    this.logger.trace("Update");
     this.printActivity(this.root);
     System.out.println("=============================================================");
   }

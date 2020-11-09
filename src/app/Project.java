@@ -1,5 +1,8 @@
 package app;
 
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,10 +19,13 @@ import java.util.List;
 
 public class Project extends Activity {
 
+  private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.activity.project");
   private final List<Activity> childs;
 
   public Project(Activity parent, String name) {
     super(parent, name);
+
+    this.logger.trace("New Project");
 
     this.childs = new ArrayList<>();
     this.setDuration(Duration.ofSeconds(0));
@@ -28,6 +34,7 @@ public class Project extends Activity {
   public Project(Activity parent, String name, LocalDateTime start,
                  LocalDateTime end, Long duration) {
     super(parent, name, start, end, duration);
+    this.logger.trace("New Project from JSON");
 
     this.childs = new ArrayList<>();
   }
@@ -83,6 +90,7 @@ public class Project extends Activity {
   */
   @Override
   public void accept(Printer printer) {
+    this.logger.debug("Accepting visitor");
     printer.addProject(getName(), getStartTime(), getEndTime(),
           getDuration(), childs, this.getParent());
 

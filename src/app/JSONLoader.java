@@ -7,9 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import ch.qos.logback.classic.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
@@ -23,8 +26,11 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class JSONLoader {
 
+  private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.JSONLoarder");
+
   public static Activity createTreeFromJSONFile(String s) {
 
+    logger.debug("Entry point");
     File jsonFile = new File(s);
     InputStream in = null;
 
@@ -41,7 +47,7 @@ public class JSONLoader {
   }
 
   private static Activity newTreeFromJSON(Activity parent, JSONObject obj) {
-
+    logger.debug("recursive function: "+obj.getString("name"));
     Activity newone;
     JSONArray arr;
 

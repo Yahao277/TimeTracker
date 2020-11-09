@@ -8,11 +8,16 @@
 
 package app;
 
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 
 abstract class Activity {
+
+  private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.activity");
 
   private final Activity parent;
   private String name;
@@ -21,6 +26,10 @@ abstract class Activity {
   private Duration duration;
 
   protected Activity(Activity parent, String name) {
+
+    this.logger.trace("New Activity");
+    this.logger.debug("Normal constructor");
+
     this.parent = parent;
     this.name = name;
     this.duration = null;
@@ -34,6 +43,10 @@ abstract class Activity {
 
   protected Activity(Activity parent, String name,
                      LocalDateTime start, LocalDateTime end, Long duration) {
+
+    this.logger.trace("New Activity");
+    this.logger.debug("JSON constructor");
+
     this.parent = parent;
     this.name = name;
     this.duration = Duration.ofSeconds(duration);
@@ -109,6 +122,8 @@ abstract class Activity {
    * @param i The interval that comes from
    */
   public void propagateTime(int lapse, Interval i) {
+
+    this.logger.debug("PropagateTime:"+this.name);
 
     // Check if it has started before
     if (this.startTime == null) {

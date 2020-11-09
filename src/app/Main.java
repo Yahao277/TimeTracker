@@ -218,7 +218,7 @@ public class Main {
 
   public static void main(String[] args) {
     // Main.testJSON();
-    //Main.milestone1();
-    Main.testLog();
+    Main.milestone1();
+    //Main.testLog();
   }
 }
