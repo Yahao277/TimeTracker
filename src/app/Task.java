@@ -83,7 +83,7 @@ public class Task extends Activity {
     this.currInterval = null;
     this.active = false;
 
-    assert this.currInterval != null && this.active == false : "Post condition - endtInterval()";
+    assert this.currInterval == null && this.active == false : "Post condition - endtInterval()";
   }
 
   public boolean getActive() {
@@ -104,7 +104,7 @@ public class Task extends Activity {
     assert (this.currInterval != null && this.active == true ) : "Pre condition - end()";
     this.currInterval.end();
     this.endInterval();
-    assert this.currInterval != null && this.active == false : "Post condition - end()";
+    assert this.currInterval == null && this.active == false : "Post condition - end()";
   }
 
   @Override
@@ -163,7 +163,6 @@ public class Task extends Activity {
 
   @Override
   public Activity getChild(int nthChild) {
-    assert 1 == 0 : "We shouldn't get here - getChild()";
     return null;
   }
 
