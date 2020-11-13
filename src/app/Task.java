@@ -14,6 +14,7 @@ import java.util.List;
 // Unlike project, a task has no children.
 public class Task extends Activity {
   private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.activity.task");
+  private static Logger logger2 = (Logger) LoggerFactory.getLogger("milestone2.activity.task");
   private final List<Interval> intervals;
   private Interval currInterval;
   private boolean active;
@@ -143,10 +144,26 @@ public class Task extends Activity {
         getActive(), intervals, this.getParent().getName());
   }
 
+  @Override
+  public void accept(SearchVisitor s) {
+    assert s != null : "Pre condition - accept()";
+    this.logger2.debug("Accepting visitor");
+    s.checkInTask(this);
+  }
+
   public void addInterval(Interval interval) {
     assert interval != null : "Pre condition - addInterval()";
     intervals.add(interval);
     assert this.invariant() : "Violated invariant - addInterval()";
+  }
+
+  public Interval getInterval(int nthInterval) {
+    assert nthInterval >= 0 : "Pre condition - getInterval()";
+    if (nthInterval > (this.intervals.size() - 1) || nthInterval < 0) {
+      return null;
+    }
+    assert this.invariant() : "Violated invariant - getInterval()";
+    return this.intervals.get(nthInterval);
   }
 
   // We leave the following methods empty as this class as the

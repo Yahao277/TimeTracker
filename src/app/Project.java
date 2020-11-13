@@ -1,6 +1,7 @@
 package app;
 
 import ch.qos.logback.classic.Logger;
+import jdk.nashorn.internal.lookup.MethodHandleFactory;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
@@ -21,6 +22,7 @@ public class Project extends Activity {
 
   private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.activity.project");
   private final List<Activity> childs;
+  private static Logger logger2 = (Logger) LoggerFactory.getLogger("milestone2.activity.project");
 
   /**
    * Class Invariant
@@ -116,6 +118,12 @@ public class Project extends Activity {
     printer.addProject(getName(), getStartTime(), getEndTime(),
           getDuration(), childs, this.getParent());
 
+  }
+  @Override
+  public void accept(SearchVisitor s) {
+    assert s != null : "Pre condition - accept()";
+    this.logger2.debug("Accepting visitor");
+    s.checkInProject(this);
   }
 
   @Override

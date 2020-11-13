@@ -78,4 +78,5 @@ public class Interval implements Observer {
   public LocalDateTime getStartTime() {
     return this.startedAt;
   }
+
 }

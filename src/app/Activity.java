@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 abstract class Activity {
@@ -24,6 +26,24 @@ abstract class Activity {
   private LocalDateTime startTime;
   private LocalDateTime endTime;
   private Duration duration;
+  private List<String> tags;
+
+  public boolean hasTag(String tag) {
+    return this.tags.contains(tag);
+  }
+
+  public void addTag(String tag) {
+    this.tags.add(tag);
+  }
+
+  public void rmTag(String tag) {
+    this.tags.remove(tag);
+  }
+
+  public Duration durBetween(LocalDateTime start, LocalDateTime end) {
+    //TODO
+    return Duration.ofSeconds(0);
+  }
 
   protected Activity(Activity parent, String name) {
 
@@ -33,6 +53,7 @@ abstract class Activity {
     this.parent = parent;
     this.name = name;
     this.duration = null;
+    this.tags = new ArrayList<>();
 
     // Add myself to my parent list
     if (this.parent != null) {
@@ -52,6 +73,7 @@ abstract class Activity {
     this.duration = Duration.ofSeconds(duration);
     this.startTime = start;
     this.endTime = end;
+    this.tags = new ArrayList<>();
 
     // Add myself to my parent list
     if (this.parent != null) {
@@ -73,6 +95,7 @@ abstract class Activity {
 
   // Visitor pattern
   public abstract void accept(Printer printer);
+  public abstract void accept(SearchVisitor s);
 
   // getters and setters
   public Activity getParent() {

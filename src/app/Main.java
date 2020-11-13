@@ -11,6 +11,8 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+
 public class Main {
   public static void printTree(Activity rootNode, int level) {
     String indent = new String(new char[level]).replace('\0', '\t');
@@ -216,9 +218,130 @@ public class Main {
 
   }
 
+  public static void testSearchtag() {
+    // To hold everything together
+    Project rootNode = new Project(null, "ROOT_NODE");
+
+    // First level
+    Project swDesing = new Project(rootNode, "Software design");
+    Project swTesting = new Project(rootNode, "Software testing");
+    Project databases = new Project(rootNode, "Databases");
+    Task transport = new Task(rootNode, "transportation");
+    // SW design
+    Project problems = new Project(swDesing, "Problems");
+    Project timeTracker = new Project(swDesing, "project time tracker");
+
+    problems.addTag("hey");
+    databases.addTag("hey");
+
+    SearchTag st = new SearchTag("hey");
+
+    st.visitActivity(rootNode);
+
+    for (Activity res :
+        st.getResults()) {
+      System.out.println(res.toString());
+    }
+
+  }
+
+  public static void testSearchTime1() throws InterruptedException {
+    // Create clock
+    Clock clock = Clock.getInstance(2);
+
+    // To hold everything together
+    Project rootNode = new Project(null, "ROOT_NODE");
+
+    // First level
+    Project P0 = new Project(rootNode, "P0");
+    Project P1 = new Project(rootNode, "P1");
+    Project P3 = new Project(rootNode, "P3");
+    Task T4 = new Task(rootNode, "T4");
+    Task T5 = new Task(rootNode, "T5");
+
+    // Second Level
+    Task T0 = new Task(P0, "T0");
+    Task T1 = new Task(P0, "T1");
+    Task T2 = new Task(P0, "T2");
+    Task T3 = new Task(P1, "T3");
+
+    clock.start();
+
+    Thread.sleep(1000);
+    T0.start();
+    Thread.sleep(1000);
+    T4.start();
+    Thread.sleep(1000);
+    T0.end();
+    T4.end();
+    T1.start();
+    T2.start();
+    Thread.sleep(1000);
+    T0.start();
+    T5.start();
+    Thread.sleep(1000);
+    T0.end();
+    T1.end();
+    T4.start();
+    Thread.sleep(2000);
+    T1.start();
+    T5.end();
+    Thread.sleep(1000);
+    T5.start();
+    Thread.sleep(1000);
+    T5.end();
+    T2.end();
+    Thread.sleep(1000);
+    T5.start();
+    Thread.sleep(1000);
+    T5.end();
+    T2.start();
+    Thread.sleep(2000);
+    T1.end();
+    T2.end();
+    T4.end();
+    T3.start();
+    Thread.sleep(1000);
+    T0.start();
+    T4.start();
+    T3.end();
+    Thread.sleep(1000);
+    T0.end();
+    Thread.sleep(1000);
+    T4.end();
+
+    clock.stop();
+
+    JSONPrinter jsonp = new JSONPrinter("testSearchTime part1.json");
+    jsonp.printActivity(rootNode);
+    jsonp.write();
+
+  }
+
+  public static void testSearchTime2() {
+
+    Activity root = JSONLoader.createTreeFromJSONFile("testSearchTime part1.json");
+
+    SearchTime st = new SearchTime(root.getStartTime().plusSeconds(6), root.getStartTime().plusSeconds(12));
+
+    st.visitActivity(root);
+
+    st.getTotal();
+
+  }
+
   public static void main(String[] args) {
     // Main.testJSON();
-    Main.milestone1();
+    //Main.milestone1();
     //Main.testLog();
+    //Main.testSearchtag();
+
+    // try {
+    //   Main.testSearchTime1();
+    // } catch (Exception e) {
+    //
+    // }
+
+    Main.testSearchTime2();
   }
 }

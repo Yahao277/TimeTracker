@@ -194,22 +194,22 @@ class JSONLoader {
 
 interface Search {
     + void visitActivity(Activity node)
-    + void addProject(Project p)
-    + void addTask(Task t)
+    + void checkInProject(Project p)
+    + void checkInTask(Task t)
 }
 
 class SearchTag implements Search {
     - List<Activity> resultsFound
     + void visitActivity(Activity node)
-    + void addProject(Project p)
-    + void addTask(Task t)
+    + void checkInProject(Project p)
+    + void checkInTask(Task t)
 }
 
 class SearchTime implements Search {
    - Activity tree
     + void visitActivity(Activity node)
-    + void addProject(Project p)
-    + void addTask(Task t)
+    + void checkInProject(Project p)
+    + void checkInTask(Task t)
 }
 
 
