@@ -17,4 +17,5 @@
         <appender-ref ref="FILE" />
     </root>
     <logger name="app.Main" level="warn"/>
+    <logger name="milestone1" level="trace"/>
 </configuration>
