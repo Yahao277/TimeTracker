@@ -22,21 +22,40 @@ public class Project extends Activity {
   private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.activity.project");
   private final List<Activity> childs;
 
+  /**
+   * Class Invariant
+   * @return boolean
+   */
+  private boolean invariant() {
+    return (this.childs.size() >= 0 && this.getName().length() > 0);
+  }
+
   public Project(Activity parent, String name) {
     super(parent, name);
+
+    // Pre conditions
+    assert name != null : "Preconditions -Project()";
+    assert name.length() > 0 : "Preconditions -Project()";
 
     this.logger.trace("New Project");
 
     this.childs = new ArrayList<>();
     this.setDuration(Duration.ofSeconds(0));
+
+    assert this.invariant() : "Violated invariant - Project()";
   }
 
   public Project(Activity parent, String name, LocalDateTime start,
                  LocalDateTime end, Long duration) {
     super(parent, name, start, end, duration);
+
+    assert name != null : "Preconditions -Project(json)";
+
     this.logger.trace("New Project from JSON");
 
     this.childs = new ArrayList<>();
+
+    assert this.invariant() : "Violated invariant - Prjocet(json)";
   }
 
   /**
@@ -90,6 +109,9 @@ public class Project extends Activity {
   */
   @Override
   public void accept(Printer printer) {
+
+    assert printer != null : "Pre condition - accept()";
+
     this.logger.debug("Accepting visitor");
     printer.addProject(getName(), getStartTime(), getEndTime(),
           getDuration(), childs, this.getParent());
@@ -98,19 +120,25 @@ public class Project extends Activity {
 
   @Override
   public void addActivity(Activity a) {
+    assert a != null : "Pre condition - addActivity()";
     this.childs.add(a);
+    assert this.invariant() : "Violated invariant - AddActivity()";
   }
 
   @Override
   public void rmActivity(Activity a) {
+    assert a != null : "Pre condition - rmActivity()";
     this.childs.remove(a);
+    assert this.invariant() : "Violated invariant - rmActivity()";
   }
 
   @Override
   public Activity getChild(int nthChild) {
+    assert nthChild >= 0 : "Pre condition - getChild()";
     if (nthChild > (this.childs.size() - 1) || nthChild < 0) {
       return null;
     }
+    assert this.invariant() : "Violated invariant - getChild()";
     return this.childs.get(nthChild);
   }
 }
