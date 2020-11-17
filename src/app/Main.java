@@ -247,7 +247,7 @@ public class Main {
 
   public static void testSearchTime1() throws InterruptedException {
     // Create clock
-    Clock clock = Clock.getInstance(2);
+    Clock clock = Clock.getInstance(1);
 
     // To hold everything together
     Project rootNode = new Project(null, "ROOT_NODE");
@@ -269,31 +269,31 @@ public class Main {
 
     Thread.sleep(1000);
     T0.start();
-    Thread.sleep(1000);
+    Thread.sleep(1000); // 2
     T4.start();
-    Thread.sleep(1000);
+    Thread.sleep(1000); // 3
     T0.end();
     T4.end();
     T1.start();
     T2.start();
-    Thread.sleep(1000);
+    Thread.sleep(1000); // 4
     T0.start();
     T5.start();
-    Thread.sleep(1000);
+    Thread.sleep(1000); // 5
     T0.end();
     T1.end();
     T4.start();
-    Thread.sleep(2000);
+    Thread.sleep(2000); // 7
     T1.start();
     T5.end();
-    Thread.sleep(1000);
+    Thread.sleep(1000); // 8
     T5.start();
-    Thread.sleep(1000);
+    Thread.sleep(1000); // 9
     T5.end();
     T2.end();
-    Thread.sleep(1000);
+    Thread.sleep(1000); // 10
     T5.start();
-    Thread.sleep(1000);
+    Thread.sleep(1000); // 11
     T5.end();
     T2.start();
     Thread.sleep(2000);
@@ -322,11 +322,21 @@ public class Main {
 
     Activity root = JSONLoader.createTreeFromJSONFile("testSearchTime part1.json");
 
-    SearchTime st = new SearchTime(root.getStartTime().plusSeconds(6), root.getStartTime().plusSeconds(12));
+    SearchTime st = new SearchTime(root.getStartTime().plusSeconds(5), root.getStartTime().plusSeconds(11));
 
     st.visitActivity(root);
 
-    st.getTotal();
+
+
+    System.out.println("Total: " + st.getTotal().toMillis()/1000.0);
+    System.out.println("P0: " + st.getSpecific("P0"));
+    System.out.println("P1: " + st.getSpecific("P1"));
+    System.out.println("T0: " + st.getSpecific("T0"));
+    System.out.println("T1: " + st.getSpecific("T1"));
+    System.out.println("T2: " + st.getSpecific("T2"));
+    System.out.println("T3: " + st.getSpecific("T3"));
+    System.out.println("T4: " + st.getSpecific("T4"));
+    System.out.println("T5: " + st.getSpecific("T5"));
 
   }
 
@@ -335,13 +345,13 @@ public class Main {
     //Main.milestone1();
     //Main.testLog();
     //Main.testSearchtag();
+/*
+    try {
+      Main.testSearchTime1();
+    } catch (Exception e) {
 
-    // try {
-    //   Main.testSearchTime1();
-    // } catch (Exception e) {
-    //
-    // }
-
+    }
+*/
     Main.testSearchTime2();
   }
 }

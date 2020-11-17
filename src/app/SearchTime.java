@@ -16,17 +16,20 @@ public class SearchTime implements SearchVisitor {
     return this.accumulated;
   }
 
-  public Duration getSpecific(String identifier) {
+  public double getSpecific(String identifier) {
     if (!this.parts.containsKey(identifier))
-      return Duration.ZERO;
-    return this.parts.get(identifier);
-  }
+      return 0;
 
+    long millis = this.parts.get(identifier).toMillis();
+    return Math.ceil(millis/1000.0);
+    // return this.parts.get(identifier);
+  }
 
   public SearchTime(LocalDateTime start, LocalDateTime end) {
     this.start = start;
     this.end = end;
     this.accumulated = Duration.ofSeconds(0);
+    this.parts = new HashMap<>();
   }
 
   public void resetTimeBoundaries(LocalDateTime start, LocalDateTime end) {
@@ -52,6 +55,7 @@ public class SearchTime implements SearchVisitor {
       ++i;
     }
     this.parts.put(p.getName(), this.accumulated);
+    System.out.println();
     this.accumulated = helper.plus(this.accumulated);
   }
 
