@@ -1,12 +1,11 @@
 package app;
 
-import org.slf4j.LoggerFactory;
-import ch.qos.logback.classic.Logger;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 
 
 // Child class of Activity. Each task has a duration,
@@ -26,8 +25,10 @@ public class Task extends Activity {
    */
   private boolean invariant() {
     return (
-            this.getParent() != null &&
-            this.intervals.size() >= 0 &&
+            this.getParent() != null
+                &&
+            this.intervals.size() >= 0
+                &&
             this.getName().length() > 0
         );
 
@@ -80,7 +81,8 @@ public class Task extends Activity {
   }
 
   private void endInterval() {
-    assert (this.currInterval != null && this.active == true ) : "Pre condition - endInterval() - Can't stop interval if there is no interval working";
+    assert (this.currInterval != null && this.active == true) :
+        "Pre condition - endInterval() - Can't stop interval if there is no interval working";
     this.currInterval = null;
     this.active = false;
 
@@ -102,7 +104,7 @@ public class Task extends Activity {
 
   public void end() {
     this.logger.debug("Stoping interval");
-    assert (this.currInterval != null && this.active == true ) : "Pre condition - end()";
+    assert (this.currInterval != null && this.active == true) : "Pre condition - end()";
     this.currInterval.end();
     this.endInterval();
     assert this.currInterval == null && this.active == false : "Post condition - end()";

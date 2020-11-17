@@ -5,10 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import ch.qos.logback.classic.Logger;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import ch.qos.logback.classic.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -47,7 +46,7 @@ public class JSONLoader {
   }
 
   private static Activity newTreeFromJSON(Activity parent, JSONObject obj) {
-    logger.debug("recursive function: "+obj.getString("name"));
+    logger.debug("recursive function: " + obj.getString("name"));
     Activity newone;
     JSONArray arr;
 

@@ -1,8 +1,14 @@
 package app;
 
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
+
+
 
 public class SearchTime implements SearchVisitor {
 
@@ -11,18 +17,18 @@ public class SearchTime implements SearchVisitor {
 
   private HashMap<String, Duration> parts;
   private Duration accumulated;
+  private static Logger logger = (Logger) LoggerFactory.getLogger("milestone2.SearchTime");
 
   public Duration getTotal() {
     return this.accumulated;
   }
 
   public double getSpecific(String identifier) {
-    if (!this.parts.containsKey(identifier))
+    if (!this.parts.containsKey(identifier)) {
       return 0;
-
+    }
     long millis = this.parts.get(identifier).toMillis();
-    return Math.ceil(millis/1000.0);
-    // return this.parts.get(identifier);
+    return Math.ceil(millis / 1000.0);
   }
 
   public SearchTime(LocalDateTime start, LocalDateTime end) {
@@ -30,6 +36,7 @@ public class SearchTime implements SearchVisitor {
     this.end = end;
     this.accumulated = Duration.ofSeconds(0);
     this.parts = new HashMap<>();
+    logger.trace("New SearchTime between: "+  start + " - " + end);
   }
 
   public void resetTimeBoundaries(LocalDateTime start, LocalDateTime end) {
@@ -40,7 +47,8 @@ public class SearchTime implements SearchVisitor {
 
   @Override
   public void visitActivity(Activity a) {
-      a.accept(this);
+    logger.debug("Visiting ativity");
+    a.accept(this);
   }
 
   @Override
@@ -49,13 +57,13 @@ public class SearchTime implements SearchVisitor {
     this.accumulated = Duration.ofSeconds(0);
     Activity aux = p.getChild(0);
     int i = 1;
+    logger.debug("Checking project: " + p.getName());
     while (aux != null) {
       this.visitActivity(aux);
       aux = p.getChild(i);
       ++i;
     }
     this.parts.put(p.getName(), this.accumulated);
-    System.out.println();
     this.accumulated = helper.plus(this.accumulated);
   }
 
@@ -66,26 +74,26 @@ public class SearchTime implements SearchVisitor {
     Interval aux = t.getInterval(0);
     int i = 1;
     while (aux != null) {
-
-      LocalDateTime i_start = aux.getStartTime();
-      LocalDateTime i_end = aux.getEndTime();
+      logger.debug("Checking task: " + t.getName());
+      LocalDateTime auxStartTime = aux.getStartTime();
+      LocalDateTime auxEndTime = aux.getEndTime();
 
       // Is it inside the time frame?
-      if (i_start.isBefore(this.start) && i_end.isAfter(this.end)) {
+      if (auxStartTime.isBefore(this.start) && auxEndTime.isAfter(this.end)) {
         // Cut both sides ---|------|----
         this.accumulated = this.accumulated.plus(Duration.between(this.start, this.end));
 
-      }  else if (i_start.isAfter(this.start) && i_end.isBefore(this.end)) {
+      }  else if (auxStartTime.isAfter(this.start) && auxEndTime.isBefore(this.end)) {
         // All in | ---- |
-        this.accumulated = this.accumulated.plus(Duration.between(i_start, i_end));
+        this.accumulated = this.accumulated.plus(Duration.between(auxStartTime, auxEndTime));
 
-      } else if (i_end.isAfter(this.start) && i_end.isBefore(this.end)) {
+      } else if (auxEndTime.isAfter(this.start) && auxEndTime.isBefore(this.end)) {
         // Cut start ---|----   |
-        this.accumulated = this.accumulated.plus(Duration.between(this.start, i_end));
+        this.accumulated = this.accumulated.plus(Duration.between(this.start, auxEndTime));
 
-      } else if (i_start.isAfter(this.start) && i_start.isBefore(this.end)) {
+      } else if (auxStartTime.isAfter(this.start) && auxStartTime.isBefore(this.end)) {
         // Cut end | ----|---
-        this.accumulated = this.accumulated.plus(Duration.between(i_start, this.end));
+        this.accumulated = this.accumulated.plus(Duration.between(auxStartTime, this.end));
 
       } else {
         // It is outside the margin do nothing

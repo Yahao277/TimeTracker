@@ -8,13 +8,12 @@
 
 package app;
 
-import ch.qos.logback.classic.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 
 
 abstract class Activity {
@@ -95,6 +94,7 @@ abstract class Activity {
 
   // Visitor pattern
   public abstract void accept(Printer printer);
+  
   public abstract void accept(SearchVisitor s);
 
   // getters and setters
@@ -146,7 +146,7 @@ abstract class Activity {
    */
   public void propagateTime(int lapse, Interval i) {
 
-    this.logger.debug("PropagateTime:"+this.name);
+    this.logger.debug("PropagateTime:" + this.name);
 
     // Check if it has started before
     if (this.startTime == null) {

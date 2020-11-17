@@ -15,7 +15,8 @@ import java.util.Observable;
 
 public class ScreenPrinter extends Printer {
 
-  private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.printer.Screenprinter");
+  private static Logger logger = (Logger) 
+      LoggerFactory.getLogger("milestone1.printer.Screenprinter");
   private final Activity root;
   private String lastScreen;
 
@@ -43,7 +44,7 @@ public class ScreenPrinter extends Printer {
   public void addProject(String name, LocalDateTime start, LocalDateTime end,
                          long duration, List<Activity> childs, Activity parent) {
 
-    this.logger.debug("Adding project: "+name);
+    this.logger.debug("Adding project: " + name);
     if (start != null) {
       String holder = String.format(
           "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
@@ -69,7 +70,7 @@ public class ScreenPrinter extends Printer {
   @Override
   public void addTask(String name, LocalDateTime start, LocalDateTime end,
                       long duration, boolean active, List<Interval> intervals, String parent) {
-    this.logger.debug("Adding task: "+name);
+    this.logger.debug("Adding task: " + name);
     if (start != null) {
       String holder = String.format(
           "%-8s: %-25s\tChild of: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds",
@@ -94,7 +95,7 @@ public class ScreenPrinter extends Printer {
   @Override
   public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent) {
 
-    this.logger.debug("Adding interval from: "+parent);
+    this.logger.debug("Adding interval from: " + parent);
     if (start == null) {
       return;
     }

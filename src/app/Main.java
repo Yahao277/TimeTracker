@@ -7,11 +7,9 @@
 package app;
 
 
-import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
 
 public class Main {
   public static void printTree(Activity rootNode, int level) {
@@ -223,24 +221,49 @@ public class Main {
     Project rootNode = new Project(null, "ROOT_NODE");
 
     // First level
-    Project swDesing = new Project(rootNode, "Software design");
+    Project swDesign = new Project(rootNode, "Software design");
+    swDesign.addTag("java");
+    swDesign.addTag("flutter");
+
     Project swTesting = new Project(rootNode, "Software testing");
+    swTesting.addTag("c++");
+    swTesting.addTag("Java");
+    swTesting.addTag("python");
+
     Project databases = new Project(rootNode, "Databases");
+    databases.addTag("SQL");
+    databases.addTag("C++");
+    databases.addTag("python");
+
     Task transport = new Task(rootNode, "transportation");
+
     // SW design
-    Project problems = new Project(swDesing, "Problems");
-    Project timeTracker = new Project(swDesing, "project time tracker");
+    Project problems = new Project(swDesign, "Problems");
+    Project timeTracker = new Project(swDesign, "project time tracker");
 
-    problems.addTag("hey");
-    databases.addTag("hey");
+    //problems
+    Task firstList = new Task(problems,"first_list");
+    firstList.addTag("java");
 
-    SearchTag st = new SearchTag("hey");
+    Task secondList = new Task(problems,"second_list");
+    secondList.addTag("Dart");
+
+    //timeTracker
+    Task readHandout = new Task(timeTracker,"read_handout");
+
+    Task firstMilestone = new Task(timeTracker,"first_milestone");
+    firstMilestone.addTag("Java");
+    firstMilestone.addTag("IntelliJ");
+
+
+    SearchTag st = new SearchTag("flutter");
 
     st.visitActivity(rootNode);
 
+    System.out.println("Get results:");
     for (Activity res :
         st.getResults()) {
-      System.out.println(res.toString());
+      System.out.println(res.getName());
     }
 
   }
@@ -322,7 +345,8 @@ public class Main {
 
     Activity root = JSONLoader.createTreeFromJSONFile("testSearchTime part1.json");
 
-    SearchTime st = new SearchTime(root.getStartTime().plusSeconds(5), root.getStartTime().plusSeconds(11));
+    SearchTime st = new SearchTime(root.getStartTime().plusSeconds(5),
+        root.getStartTime().plusSeconds(11));
 
     st.visitActivity(root);
 
@@ -344,7 +368,7 @@ public class Main {
     // Main.testJSON();
     //Main.milestone1();
     //Main.testLog();
-    //Main.testSearchtag();
+    Main.testSearchtag();
 /*
     try {
       Main.testSearchTime1();
@@ -352,6 +376,6 @@ public class Main {
 
     }
 */
-    Main.testSearchTime2();
+    //Main.testSearchTime2();
   }
 }

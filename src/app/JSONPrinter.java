@@ -11,9 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Observable;
-
 import ch.qos.logback.classic.Logger;
+import java.util.Observable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
@@ -49,7 +48,7 @@ public class JSONPrinter extends Printer {
   @Override
   public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent) {
 
-    this.logger.debug("Adding Interval from"+parent);
+    this.logger.debug("Adding Interval from" + parent);
 
     if (start == null) {
       obj.put("StartTime", "null");
@@ -81,7 +80,7 @@ public class JSONPrinter extends Printer {
   @Override
   public void addProject(String name, LocalDateTime start, LocalDateTime end,
                          long duration, List<Activity> childs, Activity parent) {
-    this.logger.debug("Adding activity: "+name);
+    this.logger.debug("Adding activity: " + name);
     // We add a project into our JSON array
     JSONObject aux = this.obj;
     JSONArray array = new JSONArray();
@@ -114,7 +113,7 @@ public class JSONPrinter extends Printer {
   @Override
   public void addTask(String name, LocalDateTime start, LocalDateTime end,
                       long duration, boolean active, List<Interval> intervals, String parent) {
-    this.logger.debug("Adding task: "+name);
+    this.logger.debug("Adding task: " + name);
     // We add a task into our JSON array
     obj.put("name", name);
     obj.put("type", "Task");
