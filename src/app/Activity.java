@@ -39,11 +39,6 @@ abstract class Activity {
     this.tags.remove(tag);
   }
 
-  public Duration durBetween(LocalDateTime start, LocalDateTime end) {
-    //TODO
-    return Duration.ofSeconds(0);
-  }
-
   protected Activity(Activity parent, String name) {
 
     this.logger.trace("New Activity");

@@ -368,7 +368,7 @@ public class Main {
     // Main.testJSON();
     //Main.milestone1();
     //Main.testLog();
-    Main.testSearchtag();
+    //Main.testSearchtag();
 /*
     try {
       Main.testSearchTime1();
@@ -376,6 +376,6 @@ public class Main {
 
     }
 */
-    //Main.testSearchTime2();
+    Main.testSearchTime2();
   }
 }

@@ -17,7 +17,7 @@ Main .. Activity : "Creates"
 Main .. Clock : "Creates"
 Main . Printer : "Uses|Creates"
 JSONLoader . Main : "Uses|Creates"
-Main . Search : "Uses|Creates"
+Main . SearchVisitor : "Uses|Creates"
 
 
 Activity "1" o-- Activity
@@ -35,7 +35,13 @@ class Main {
 
     {static} + main(String[] args)
     {static} + printTree()
-    {static} + test_observer()
+    {static} + testB()
+    {static} + testLoadJSON()
+    {static} + milestone1()
+    {static} + testLog()
+    {static} + testSearchTag()
+    {static} + testSearchTime1()
+    {static} + testSearchTime2()
 
 }
 
@@ -58,11 +64,15 @@ abstract class Activity {
     {abstract} + Duration calc_duration()
     {abstract} + String toString()
     {abstract} + void accept(p : Printer)
-    {abstract} + void acceptSearchTag(s: SearchTag)
+    {abstract} + void accept(s: SearchVisitor)
     ''Tree edition
     {abstract} + void addActivity(a : Activity)
     {abstract} + void rmActivity(a º: Activity)
     {abstract} + Activity getChild(nth_child : int)
+
+    + boolean hasTag(String tag)
+    + void addTag(String tag)
+    + void rmTag(String tag)
 
     'Back propagation
     + void propagateTime(lapse : int, i : interval)
@@ -192,20 +202,20 @@ class JSONLoader {
     + {static} Activity newTreeFromJSON(Activity parent, JSONObject obj)
 }
 
-interface Search {
+interface SearchVisitor {
     + void visitActivity(Activity node)
     + void checkInProject(Project p)
     + void checkInTask(Task t)
 }
 
-class SearchTag implements Search {
+class SearchTag implements SearchVisitor {
     - List<Activity> resultsFound
     + void visitActivity(Activity node)
     + void checkInProject(Project p)
     + void checkInTask(Task t)
 }
 
-class SearchTime implements Search {
+class SearchTime implements SearchVisitor {
    - Activity tree
     + void visitActivity(Activity node)
     + void checkInProject(Project p)

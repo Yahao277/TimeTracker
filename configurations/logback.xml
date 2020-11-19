@@ -10,12 +10,14 @@
                 <pattern>%relative%thread%mdc%level%logger%msg</pattern>
             </layout>
         </encoder>
-        <file>test.html</file>
+        <file>logger.html</file>
     </appender>
+
     <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
     <logger name="app.Main" level="warn"/>
     <logger name="milestone1" level="trace"/>
+    <logger name="milestone2" level="trace" />
 </configuration>
