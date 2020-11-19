@@ -8,11 +8,11 @@
 
 package app;
 
+import ch.qos.logback.classic.Logger;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 
 

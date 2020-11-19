@@ -6,11 +6,11 @@
 
 package app;
 
+import ch.qos.logback.classic.Logger;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Observer;
-import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 
 

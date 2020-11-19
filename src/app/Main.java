@@ -242,16 +242,16 @@ public class Main {
     Project timeTracker = new Project(swDesign, "project time tracker");
 
     //problems
-    Task firstList = new Task(problems,"first_list");
+    Task firstList = new Task(problems, "first_list");
     firstList.addTag("java");
 
-    Task secondList = new Task(problems,"second_list");
+    Task secondList = new Task(problems, "second_list");
     secondList.addTag("Dart");
 
     //timeTracker
-    Task readHandout = new Task(timeTracker,"read_handout");
+    Task readHandout = new Task(timeTracker, "read_handout");
 
-    Task firstMilestone = new Task(timeTracker,"first_milestone");
+    Task firstMilestone = new Task(timeTracker, "first_milestone");
     firstMilestone.addTag("Java");
     firstMilestone.addTag("IntelliJ");
 

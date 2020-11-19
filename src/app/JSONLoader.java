@@ -1,11 +1,10 @@
 package app;
 
-
+import ch.qos.logback.classic.Logger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import ch.qos.logback.classic.Logger;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.json.JSONArray;
@@ -17,7 +16,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 /**
-* static class for loading json files, then creates a new Activity tree.
+ * static class for loading json files, then creates a new Activity tree.
  * methods:
  * -createTreeFromJSONfile: this method reads the json file
  * -newTreeFromJSON: recursive method to create the tree.

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 
 
-/*
+/**
  * Project class extends from the abstract class Activity,
  * we add a new private attribute (a list of activities childs).
  * comparing to the Activity class, the two main changes are:
@@ -119,6 +119,7 @@ public class Project extends Activity {
           getDuration(), childs, this.getParent());
 
   }
+  
   @Override
   public void accept(SearchVisitor s) {
     assert s != null : "Pre condition - accept()";

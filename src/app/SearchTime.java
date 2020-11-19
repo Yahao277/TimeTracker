@@ -1,28 +1,36 @@
 package app;
 
-
+import ch.qos.logback.classic.Logger;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-
-import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 
 
+
+/**
+ * File: SearchTime.java
+ * Description: it returns the tasks and projects between a given time
+ * it implements the visitor patterns
+ */
 
 public class SearchTime implements SearchVisitor {
 
   private LocalDateTime start;
   private LocalDateTime end;
-
+  
+  //stores the duration of the task or project, using his name as key 
   private HashMap<String, Duration> parts;
   private Duration accumulated;
   private static Logger logger = (Logger) LoggerFactory.getLogger("milestone2.SearchTime");
 
-  public Duration getTotal() {
+  //returns the total amount of time of the tasks and projects 
+  //executed between a given time
+  public Duration getTotal() { 
     return this.accumulated;
   }
 
+  //returns the amount of time of a specific task/project
   public double getSpecific(String identifier) {
     if (!this.parts.containsKey(identifier)) {
       return 0;
@@ -36,7 +44,7 @@ public class SearchTime implements SearchVisitor {
     this.end = end;
     this.accumulated = Duration.ofSeconds(0);
     this.parts = new HashMap<>();
-    logger.trace("New SearchTime between: "+  start + " - " + end);
+    logger.trace("New SearchTime between: " + start + " - " + end);
   }
 
   public void resetTimeBoundaries(LocalDateTime start, LocalDateTime end) {
@@ -45,6 +53,7 @@ public class SearchTime implements SearchVisitor {
     this.accumulated = Duration.ofSeconds(0);
   }
 
+  //visitor implementation
   @Override
   public void visitActivity(Activity a) {
     logger.debug("Visiting ativity");
@@ -53,7 +62,7 @@ public class SearchTime implements SearchVisitor {
 
   @Override
   public void checkInProject(Project p) {
-    Duration helper = this.accumulated;
+    final Duration helper = this.accumulated;
     this.accumulated = Duration.ofSeconds(0);
     Activity aux = p.getChild(0);
     int i = 1;
@@ -69,7 +78,7 @@ public class SearchTime implements SearchVisitor {
 
   @Override
   public void checkInTask(Task t) {
-    Duration helper = this.accumulated;
+    final Duration helper = this.accumulated;
     this.accumulated = Duration.ofSeconds(0);
     Interval aux = t.getInterval(0);
     int i = 1;

@@ -1,11 +1,11 @@
 package app;
 
 import ch.qos.logback.classic.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Observable;
+import org.slf4j.LoggerFactory;
+
 
 
 //  Child class of printer. Responsible for screen printing the entire tree from root.

@@ -6,12 +6,11 @@
 
 package app;
 
-
+import ch.qos.logback.classic.Logger;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import ch.qos.logback.classic.Logger;
 import java.util.Observable;
 import org.json.JSONArray;
 import org.json.JSONObject;
