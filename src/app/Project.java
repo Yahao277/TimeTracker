@@ -29,6 +29,7 @@ public class Project extends Activity {
    * @return boolean
    */
   private boolean invariant() {
+    logger2.info("Checking invariant");
     return (this.childs.size() >= 0 && this.getName().length() > 0);
   }
 
@@ -76,6 +77,7 @@ public class Project extends Activity {
     }
 
     this.setDuration(acc);
+    assert this.invariant();
     return acc;
   }
 
@@ -102,6 +104,7 @@ public class Project extends Activity {
         this.childs) {
       holder += a.toString();
     }
+    assert this.invariant();
     return holder;
   }
 
@@ -118,6 +121,8 @@ public class Project extends Activity {
     printer.addProject(getName(), getStartTime(), getEndTime(),
           getDuration(), childs, this.getParent());
 
+    assert this.invariant();
+
   }
   
   @Override
@@ -125,6 +130,7 @@ public class Project extends Activity {
     assert s != null : "Pre condition - accept()";
     this.logger2.debug("Accepting visitor");
     s.checkInProject(this);
+    assert this.invariant();
   }
 
   @Override

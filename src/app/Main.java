@@ -335,7 +335,7 @@ public class Main {
 
     clock.stop();
 
-    JSONPrinter jsonp = new JSONPrinter("testSearchTime part1.json");
+    JSONPrinter jsonp = new JSONPrinter("testSearchTime.json");
     jsonp.printActivity(rootNode);
     jsonp.write();
 
@@ -343,7 +343,7 @@ public class Main {
 
   public static void testSearchTime2() {
 
-    Activity root = JSONLoader.createTreeFromJSONFile("testSearchTime part1.json");
+    Activity root = JSONLoader.createTreeFromJSONFile("testSearchTime.json");
 
     SearchTime st = new SearchTime(root.getStartTime().plusSeconds(5),
         root.getStartTime().plusSeconds(11));
@@ -368,7 +368,19 @@ public class Main {
     // Main.testJSON();
     //Main.milestone1();
     //Main.testLog();
+
+    /**
+     * From here on, milestone two functionality can
+     * be found.
+     */
+
+    // Test for searching tags
     //Main.testSearchtag();
+
+
+    // The search time we divided the time by 10 to make it
+    // easier to develop and test. The next comment creates
+    // the json file and the next line searches for the time.
 /*
     try {
       Main.testSearchTime1();

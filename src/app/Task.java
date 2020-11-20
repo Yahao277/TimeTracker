@@ -24,6 +24,7 @@ public class Task extends Activity {
    * @return boolean is okay
    */
   private boolean invariant() {
+    logger2.info("Checking invariant");
     return (
             this.getParent() != null
                 &&
@@ -78,6 +79,7 @@ public class Task extends Activity {
     this.intervals.add(this.currInterval);
 
     assert this.currInterval != null && this.active == true : "Post condition - startInterval()";
+    assert this.invariant();
   }
 
   private void endInterval() {
@@ -87,6 +89,7 @@ public class Task extends Activity {
     this.active = false;
 
     assert this.currInterval == null && this.active == false : "Post condition - endtInterval()";
+    assert this.invariant();
   }
 
   public boolean getActive() {
@@ -95,11 +98,12 @@ public class Task extends Activity {
 
   public void start() {
     assert this.currInterval == null && this.active == false : "Pre condition - start()";
-    this.logger.debug("Creating and starting interval");
+    this.logger.info("Creating and starting interval");
     this.logger.debug("starting interval");
     this.startInterval();
     this.currInterval.begin();
     assert this.currInterval != null && this.active == true : "Post condition - start()";
+    assert this.invariant();
   }
 
   public void end() {
@@ -108,6 +112,7 @@ public class Task extends Activity {
     this.currInterval.end();
     this.endInterval();
     assert this.currInterval == null && this.active == false : "Post condition - end()";
+    assert this.invariant();
   }
 
   @Override
@@ -119,11 +124,13 @@ public class Task extends Activity {
       acc = acc.plus(i.getDuration());
     }
     this.setDuration(acc);
+    assert this.invariant();
     return acc;
   }
 
   @Override
   public String toString() {
+    assert this.invariant();
     return String.format(
         "%-8s: %-25s\tStarted at: %-25s\tEnded at: %-25s\tDuration: %ds\n",
         "Task",
@@ -144,6 +151,7 @@ public class Task extends Activity {
     this.logger.debug("Accepting visitor");
     printer.addTask(getName(), getStartTime(), getEndTime(), getDuration(),
         getActive(), intervals, this.getParent().getName());
+    assert this.invariant();
   }
 
   @Override
@@ -151,6 +159,7 @@ public class Task extends Activity {
     assert s != null : "Pre condition - accept()";
     this.logger2.debug("Accepting visitor");
     s.checkInTask(this);
+    assert this.invariant();
   }
 
   public void addInterval(Interval interval) {
@@ -172,16 +181,19 @@ public class Task extends Activity {
   // leaf in the composite won't have any children
   @Override
   public void addActivity(Activity a) {
+    logger.warn("We shouldn't get here");
     assert 1 == 0 : "We shouldn't get here - addActivity()";
   }
 
   @Override
   public void rmActivity(Activity a) {
+    logger.warn("We shouldn't get here");
     assert 1 == 0 : "We shouldn't get here - rmActivity()";
   }
 
   @Override
   public Activity getChild(int nthChild) {
+    logger.warn("We shouldn't get here");
     return null;
   }
 
