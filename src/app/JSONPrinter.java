@@ -78,7 +78,7 @@ public class JSONPrinter extends Printer {
 
   @Override
   public void addProject(String name, LocalDateTime start, LocalDateTime end,
-                         long duration, List<Activity> childs, Activity parent) {
+                         long duration, List<Activity> childs, Activity parent,int id) {
     this.logger.debug("Adding activity: " + name);
     // We add a project into our JSON array
     JSONObject aux = this.obj;
@@ -111,7 +111,7 @@ public class JSONPrinter extends Printer {
 
   @Override
   public void addTask(String name, LocalDateTime start, LocalDateTime end,
-                      long duration, boolean active, List<Interval> intervals, String parent) {
+                      long duration, boolean active, List<Interval> intervals, String parent,int id) {
     this.logger.debug("Adding task: " + name);
     // We add a task into our JSON array
     obj.put("name", name);
@@ -148,5 +148,135 @@ public class JSONPrinter extends Printer {
     this.logger.warn("Update should not be reached");
     // We leave it empty as we dont want this implementation to
     // do anything if it gets ever set as an observer
+  }
+}
+
+
+class JSONfile extends Printer {
+
+  private int depth;
+  private JSONObject obj;
+
+  public JSONfile(int depth) {
+    this.depth = depth;
+    this.obj = new JSONObject();
+  }
+
+  public void setDepth(int depth) {
+    this.depth = depth;
+  }
+
+  public int getDepth(){
+    return this.depth;
+  }
+
+  public void decreaseDepth() {
+    this.depth = this.depth -1;
+  }
+
+  @Override
+  public void printActivity(Activity root) {
+    root.accept(this);
+  }
+
+  @Override
+  public void printInterval(Interval interval) {
+    interval.accept(this);
+  }
+
+  @Override
+  public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs,
+                         Activity parent,int id) {
+    // We add a project into our JSON array
+    JSONObject aux = this.obj;
+    JSONArray array = new JSONArray();
+
+    for (Activity child : childs) {
+      this.obj = new JSONObject();
+      this.printActivity(child);
+      array.put(this.obj);
+    }
+    obj = aux;
+    obj.put("name", name);
+    obj.put("type", "Project");
+
+    if (start == null) {
+      obj.put("StartTime", "null");
+    } else {
+      obj.put("StartTime", start);
+    }
+
+    if (end == null) {
+      obj.put("EndTime", "null");
+    } else {
+      obj.put("EndTime", end);
+    }
+
+    obj.put("duration", duration);
+    obj.put("activities", array);
+  }
+
+  @Override
+  public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, boolean active,
+                      List<Interval> intervals, String parent,int id) {
+    // We add a task into our JSON array
+    obj.put("name", name);
+    obj.put("type", "Task");
+
+    if (start == null) {
+      obj.put("StartTime", "null");
+    } else {
+      obj.put("StartTime", start);
+    }
+
+    if (end == null) {
+      obj.put("EndTime", "null");
+    } else {
+      obj.put("EndTime", end);
+    }
+    obj.put("active", active);
+    obj.put("duration", duration);
+
+    JSONObject aux = this.obj;
+    JSONArray array = new JSONArray();
+
+    for (Interval interval : intervals) {
+      this.obj = new JSONObject();
+      this.printInterval(interval);
+      array.put(this.obj);
+    }
+    obj = aux;
+    obj.put("intervals", array);
+  }
+
+  @Override
+  public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent) {
+    if (start == null) {
+      obj.put("StartTime", "null");
+    } else {
+      obj.put("StartTime", start);
+    }
+
+    if (end == null) {
+      obj.put("EndTime", "null");
+    } else {
+      obj.put("EndTime", end);
+    }
+
+    obj.put("duration", duration);
+  }
+
+  @Override
+  public void write() {
+
+  }
+
+  public JSONObject getJson(){
+    return this.obj;
+  }
+
+  @Override
+  public void update(Observable o, Object arg) {
+
   }
 }

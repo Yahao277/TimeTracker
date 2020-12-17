@@ -119,7 +119,7 @@ public class Project extends Activity {
 
     this.logger.debug("Accepting visitor");
     printer.addProject(getName(), getStartTime(), getEndTime(),
-          getDuration(), childs, this.getParent());
+          getDuration(), childs, this.getParent(),getId());
 
     assert this.invariant();
 
@@ -131,6 +131,20 @@ public class Project extends Activity {
     this.logger2.debug("Accepting visitor");
     s.checkInProject(this);
     assert this.invariant();
+  }
+
+  @Override
+  public void accept(JSONfile p) {
+    if (p.getDepth() == 0 ) {
+      p.decreaseDepth();
+      p.addProject(getName(),getStartTime(),getEndTime(),getDuration(),null,this.getParent(),getId());
+
+    } else if ( p.getDepth() > 0 ) {
+      p.decreaseDepth();
+      p.addProject(getName(), getStartTime(),getEndTime(),getDuration(),childs,this.getParent(),getId());
+    } else if( p.getDepth()< 0) {
+      // do nothing
+    }
   }
 
   @Override

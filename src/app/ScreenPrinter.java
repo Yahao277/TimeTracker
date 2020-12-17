@@ -42,7 +42,7 @@ public class ScreenPrinter extends Printer {
   //Takes the project information for screen printing and then runs a printActivity() of  children.
   @Override
   public void addProject(String name, LocalDateTime start, LocalDateTime end,
-                         long duration, List<Activity> childs, Activity parent) {
+                         long duration, List<Activity> childs, Activity parent,int id) {
 
     this.logger.debug("Adding project: " + name);
     if (start != null) {
@@ -69,7 +69,7 @@ public class ScreenPrinter extends Printer {
   //Responsible for printing the job and also printInterval () from its list of intervals.
   @Override
   public void addTask(String name, LocalDateTime start, LocalDateTime end,
-                      long duration, boolean active, List<Interval> intervals, String parent) {
+                      long duration, boolean active, List<Interval> intervals, String parent,int id) {
     this.logger.debug("Adding task: " + name);
     if (start != null) {
       String holder = String.format(

@@ -27,11 +27,11 @@ public abstract class Printer implements Observer {
   public abstract void printInterval(Interval interval);
 
   public abstract void addProject(String name, LocalDateTime start, LocalDateTime end,
-                                  long duration, List<Activity> childs, Activity parent);
+                                  long duration, List<Activity> childs, Activity parent,int id);
 
   public abstract void addTask(String name, LocalDateTime start, LocalDateTime end,
                                long duration, boolean active, List<Interval> intervals,
-                               String parent);
+                               String parent,int id);
 
   public abstract void addInterval(LocalDateTime start, LocalDateTime end,
                                    long duration, String parent);

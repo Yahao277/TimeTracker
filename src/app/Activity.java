@@ -13,10 +13,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
 
-abstract class Activity {
+public abstract class Activity {
 
   private static Logger logger = (Logger) LoggerFactory.getLogger("milestone1.activity");
 
@@ -25,6 +28,7 @@ abstract class Activity {
   private LocalDateTime startTime;
   private LocalDateTime endTime;
   private Duration duration;
+  private int id;
   private List<String> tags;
 
   public boolean hasTag(String tag) {
@@ -48,6 +52,7 @@ abstract class Activity {
     this.name = name;
     this.duration = null;
     this.tags = new ArrayList<>();
+    this.id = IdGenerator.getInstance().generateId();
 
     // Add myself to my parent list
     if (this.parent != null) {
@@ -92,6 +97,20 @@ abstract class Activity {
   
   public abstract void accept(SearchVisitor s);
 
+  public abstract void accept(JSONfile p);
+
+  public JSONObject toJson(int depth) {
+    JSONfile f = new JSONfile(depth);
+    f.printActivity(this);
+    return f.getJson();
+  }
+
+  public Activity findActivityById(int id) {
+    SearchId s = new SearchId(id);
+    s.visitActivity(this);
+    return s.getFoundActivity();
+  }
+
   // getters and setters
   public Activity getParent() {
     return parent;
@@ -121,6 +140,8 @@ abstract class Activity {
     this.endTime = endTime;
   }
 
+  public int getId() { return this.id; }
+
   public long getDuration() {
     long res = 0;
 
@@ -129,6 +150,7 @@ abstract class Activity {
     }
     return res;
   }
+
 
   protected void setDuration(Duration duration) {
     this.duration = duration;

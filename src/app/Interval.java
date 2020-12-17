@@ -76,6 +76,10 @@ public class Interval implements Observer {
     printer.addInterval(startedAt, lastTick, getDuration().getSeconds(), this.parent.getName());
   }
 
+  public void accept(JSONfile p) {
+    p.addInterval(startedAt, lastTick, getDuration().getSeconds(), this.parent.getName());
+  }
+
   public LocalDateTime getStartTime() {
     return this.startedAt;
   }

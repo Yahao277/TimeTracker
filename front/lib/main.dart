@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
             subhead: TextStyle(fontSize:20.0),
             body1:TextStyle(fontSize:20.0)),
       ),
-      home: PageActivities(),
+      home: PageActivities(0),
     );
   }
 }

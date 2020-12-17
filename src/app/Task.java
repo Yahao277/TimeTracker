@@ -150,7 +150,7 @@ public class Task extends Activity {
 
     this.logger.debug("Accepting visitor");
     printer.addTask(getName(), getStartTime(), getEndTime(), getDuration(),
-        getActive(), intervals, this.getParent().getName());
+        getActive(), intervals, this.getParent().getName(),getId());
     assert this.invariant();
   }
 
@@ -160,6 +160,18 @@ public class Task extends Activity {
     this.logger2.debug("Accepting visitor");
     s.checkInTask(this);
     assert this.invariant();
+  }
+
+  @Override
+  public void accept(JSONfile p) {
+
+    if (p.getDepth() >= 0) {
+      p.decreaseDepth();
+      p.addTask(getName(),getStartTime(),getEndTime(),getDuration(),getActive(),intervals,this.getParent().getName(),getId());
+
+    } else if(p.getDepth() < 0) {
+      // do nothing
+    }
   }
 
   public void addInterval(Interval interval) {
