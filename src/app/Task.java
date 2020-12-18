@@ -148,7 +148,7 @@ public class Task extends Activity {
 
     assert printer != null : "Pre condition - accept()";
 
-    this.logger.debug("Accepting visitor");
+    this.logger.debug("Accepting visitor printer");
     printer.addTask(getName(), getStartTime(), getEndTime(), getDuration(),
         getActive(), intervals, this.getParent().getName(),getId());
     assert this.invariant();
@@ -157,19 +157,19 @@ public class Task extends Activity {
   @Override
   public void accept(SearchVisitor s) {
     assert s != null : "Pre condition - accept()";
-    this.logger2.debug("Accepting visitor");
+    this.logger2.debug("Accepting visitor search");
     s.checkInTask(this);
     assert this.invariant();
   }
 
   @Override
-  public void accept(JSONfile p) {
+  public void accept(JSONfind p,int depth) {
 
-    if (p.getDepth() >= 0) {
-      p.decreaseDepth();
-      p.addTask(getName(),getStartTime(),getEndTime(),getDuration(),getActive(),intervals,this.getParent().getName(),getId());
+    if (depth >= 0) {
+      p.addTask(getName(), getStartTime(), getEndTime(),
+          getDuration(), getActive(), intervals, this.getParent().getName(), getId(), depth - 1);
 
-    } else if(p.getDepth() < 0) {
+    } else if(depth < 0) {
       // do nothing
     }
   }

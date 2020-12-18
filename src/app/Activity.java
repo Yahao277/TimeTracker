@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
@@ -97,11 +96,11 @@ public abstract class Activity {
   
   public abstract void accept(SearchVisitor s);
 
-  public abstract void accept(JSONfile p);
+  public abstract void accept(JSONfind p,int depth);
 
   public JSONObject toJson(int depth) {
-    JSONfile f = new JSONfile(depth);
-    f.printActivity(this);
+    JSONfind f = new JSONfind();
+    f.printActivity(this,depth);
     return f.getJson();
   }
 

@@ -99,7 +99,7 @@ public class Clock extends Observable {
    * Update time and let everyone know.
    */
   public void update() {
-    this.logger.debug("Notifying everyone");
+    //this.logger.debug("Notifying everyone");
     this.lastTick = LocalDateTime.now();
     this.setChanged();
     this.notifyObservers(this);

@@ -18,12 +18,12 @@ class SearchId implements SearchVisitor
 {
   int id2search;
   Activity found;
-  public SearchId(int id){
+  public SearchId(int id) {
     this.id2search = id;
     this.found = null;
   }
 
-  public Activity getFoundActivity(){
+  public Activity getFoundActivity() {
     return this.found;
   }
 
@@ -51,9 +51,12 @@ class SearchId implements SearchVisitor
 
   @Override
   public void checkInTask(Task t) {
-    if(t.getId() == this.id2search){
-      this.found = t;
+    if (t != null) {
+      if (t.getId() == this.id2search) {
+        this.found = t;
+      }
     }
+
 
   }
 }

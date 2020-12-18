@@ -25,13 +25,15 @@ abstract class Activity {
 
 class Project extends Activity {
   Project.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    if (json.containsKey('activities')) {
+    if (json.containsKey('activities') && json['activities'].length > 0 ) {
+      print(json['activities']);
       // json has only 1 level because depth=1 or 0 in time_tracker
       for (Map<String, dynamic> jsonChild in json['activities']) {
-        if (jsonChild['class'] == "project") {
+        print(jsonChild);
+        if (jsonChild['type'] == "Project") {
           children.add(Project.fromJson(jsonChild));
           // condition on key avoids infinite recursion
-        } else if (jsonChild['class'] == "task") {
+        } else if (jsonChild['type'] == "Task") {
           children.add(Task.fromJson(jsonChild));
         } else {
           assert(false);
@@ -75,9 +77,10 @@ class Tree {
   Tree(Map<String, dynamic> dec) {
     // 1 level tree, root and children only, root is either Project or Task. If Project
     // children are Project or Task, that is, Activity. If root is Task, children are Instance.
-    if (dec['class'] == "project") {
+
+    if (dec['type'] == "Project") {
       root = Project.fromJson(dec);
-    } else if (dec['class'] == "task") {
+    } else if (dec['type'] == "Task") {
       root = Task.fromJson(dec);
     } else {
       assert(false);

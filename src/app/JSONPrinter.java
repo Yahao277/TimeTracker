@@ -92,6 +92,7 @@ public class JSONPrinter extends Printer {
     obj = aux;
     obj.put("name", name);
     obj.put("type", "Project");
+    obj.put("id",id);
 
     if (start == null) {
       obj.put("StartTime", "null");
@@ -116,6 +117,7 @@ public class JSONPrinter extends Printer {
     // We add a task into our JSON array
     obj.put("name", name);
     obj.put("type", "Task");
+    obj.put("id",id);
 
     if (start == null) {
       obj.put("StartTime", "null");
@@ -152,53 +154,39 @@ public class JSONPrinter extends Printer {
 }
 
 
-class JSONfile extends Printer {
+class JSONfind  {
 
-  private int depth;
   private JSONObject obj;
 
-  public JSONfile(int depth) {
-    this.depth = depth;
+  public JSONfind() {
     this.obj = new JSONObject();
   }
 
-  public void setDepth(int depth) {
-    this.depth = depth;
+  public void printActivity(Activity root,int depth) {
+    root.accept(this,depth);
   }
 
-  public int getDepth(){
-    return this.depth;
-  }
 
-  public void decreaseDepth() {
-    this.depth = this.depth -1;
-  }
-
-  @Override
-  public void printActivity(Activity root) {
-    root.accept(this);
-  }
-
-  @Override
   public void printInterval(Interval interval) {
     interval.accept(this);
   }
 
-  @Override
+
   public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs,
-                         Activity parent,int id) {
+                         Activity parent,int id,int depth) {
     // We add a project into our JSON array
     JSONObject aux = this.obj;
     JSONArray array = new JSONArray();
 
     for (Activity child : childs) {
       this.obj = new JSONObject();
-      this.printActivity(child);
+      this.printActivity(child, depth - 1);
       array.put(this.obj);
     }
     obj = aux;
     obj.put("name", name);
     obj.put("type", "Project");
+    obj.put("id",id);
 
     if (start == null) {
       obj.put("StartTime", "null");
@@ -216,12 +204,13 @@ class JSONfile extends Printer {
     obj.put("activities", array);
   }
 
-  @Override
+
   public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, boolean active,
-                      List<Interval> intervals, String parent,int id) {
+                      List<Interval> intervals, String parent,int id, int depth) {
     // We add a task into our JSON array
     obj.put("name", name);
     obj.put("type", "Task");
+    obj.put("id",id);
 
     if (start == null) {
       obj.put("StartTime", "null");
@@ -249,7 +238,7 @@ class JSONfile extends Printer {
     obj.put("intervals", array);
   }
 
-  @Override
+
   public void addInterval(LocalDateTime start, LocalDateTime end, long duration, String parent) {
     if (start == null) {
       obj.put("StartTime", "null");
@@ -266,7 +255,7 @@ class JSONfile extends Printer {
     obj.put("duration", duration);
   }
 
-  @Override
+
   public void write() {
 
   }
@@ -275,7 +264,7 @@ class JSONfile extends Printer {
     return this.obj;
   }
 
-  @Override
+
   public void update(Observable o, Object arg) {
 
   }

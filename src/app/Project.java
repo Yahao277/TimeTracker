@@ -128,21 +128,21 @@ public class Project extends Activity {
   @Override
   public void accept(SearchVisitor s) {
     assert s != null : "Pre condition - accept()";
-    this.logger2.debug("Accepting visitor");
+    this.logger2.debug("Accepting visitor search");
     s.checkInProject(this);
     assert this.invariant();
   }
 
   @Override
-  public void accept(JSONfile p) {
-    if (p.getDepth() == 0 ) {
-      p.decreaseDepth();
-      p.addProject(getName(),getStartTime(),getEndTime(),getDuration(),null,this.getParent(),getId());
+  public void accept(JSONfind p,int depth) {
 
-    } else if ( p.getDepth() > 0 ) {
-      p.decreaseDepth();
-      p.addProject(getName(), getStartTime(),getEndTime(),getDuration(),childs,this.getParent(),getId());
-    } else if( p.getDepth()< 0) {
+    if (depth == 0) {
+      p.addProject(getName(), getStartTime(), getEndTime(),
+          getDuration(), new ArrayList<>(), this.getParent(), getId(), depth);
+    } else if (depth > 0) {
+      p.addProject(getName(), getStartTime(), getEndTime(),
+          getDuration(), childs, this.getParent(), getId(), depth);
+    } else if (depth < 0) {
       // do nothing
     }
   }

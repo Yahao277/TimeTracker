@@ -12,6 +12,51 @@ import org.slf4j.LoggerFactory;
 
 
 public class Main {
+
+  public static Activity makeTreeCourses(){
+    // To hold everything together
+    Project rootNode = new Project(null, "ROOT_NODE");
+
+    // First level
+    Project swDesign = new Project(rootNode, "Software design");
+    swDesign.addTag("java");
+    swDesign.addTag("flutter");
+
+    Project swTesting = new Project(rootNode, "Software testing");
+    swTesting.addTag("c++");
+    swTesting.addTag("Java");
+    swTesting.addTag("python");
+
+    Project databases = new Project(rootNode, "Databases");
+    databases.addTag("SQL");
+    databases.addTag("C++");
+    databases.addTag("python");
+
+    Task transport = new Task(rootNode, "transportation");
+
+    // SW design
+    Project problems = new Project(swDesign, "Problems");
+    Project timeTracker = new Project(swDesign, "project time tracker");
+
+    //problems
+    Task firstList = new Task(problems, "first_list");
+    firstList.addTag("java");
+
+    Task secondList = new Task(problems, "second_list");
+    secondList.addTag("Dart");
+
+    //timeTracker
+    Task readHandout = new Task(timeTracker, "read_handout");
+
+    Task firstMilestone = new Task(timeTracker, "first_milestone");
+    firstMilestone.addTag("Java");
+    firstMilestone.addTag("IntelliJ");
+
+    Activity root = (Activity) rootNode;
+
+    return root;
+  }
+
   public static void printTree(Activity rootNode, int level) {
     String indent = new String(new char[level]).replace('\0', '\t');
     System.out.println(indent + rootNode.getName());
@@ -255,6 +300,9 @@ public class Main {
     firstMilestone.addTag("Java");
     firstMilestone.addTag("IntelliJ");
 
+    Printer printer = new JSONPrinter("appendixA_with_id.json");
+    printer.printActivity(rootNode);
+    printer.write();
 
     SearchTag st = new SearchTag("flutter");
 

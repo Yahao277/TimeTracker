@@ -113,6 +113,7 @@ public class WebServer {
           Activity activity = findActivityById(id);
           assert (activity != null);
           body = activity.toJson(1).toString();
+          System.out.println(body);
           break;
         }
         case "start": {
