@@ -15,11 +15,24 @@ abstract class Activity {
   List<dynamic> children = List<dynamic>();
 
   Activity.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        initialDate = json['initialDate']==null ? null : _dateFormatter.parse(json['initialDate']),
-        finalDate = json['finalDate']==null ? null : _dateFormatter.parse(json['finalDate']),
-        duration = json['duration'];
+  { id = json['id'];
+    name = json['name'];
+    duration = json['duration'];
+    if(json['StartTime'] == null){
+      initialDate = null;
+    }else{
+      print('helloworld');
+      print(json['StartTime']);
+      String date = json['StartTime'].toString().split('T')[0];
+      String time = json['StartTime'].toString().split('T')[1];
+      String datetime = date + ' ' + time;
+      initialDate = _dateFormatter.parse(datetime);
+      print(_dateFormatter.parse(datetime));
+    }
+    //print(json['StartTime'].toString().split('T')[0]);
+    //initialDate = json['StartTime']==null ? null : _dateFormatter.parse(datetime);
+    finalDate = json['finalDate']==null ? null : _dateFormatter.parse(json['finalDate']);
+  }
 }
 
 

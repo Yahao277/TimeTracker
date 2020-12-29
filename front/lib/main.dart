@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:front/page_activities.dart';
 import 'package:front/pageIntervals.dart';
+import 'package:front/interfaces/HomeScreen.dart';
+import 'package:front/rutes.dart';
 
-void main() => runApp(MyApp());
+void main() => Rutes();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -13,10 +15,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme: TextTheme(
-            subhead: TextStyle(fontSize:20.0),
-            body1:TextStyle(fontSize:20.0)),
+            subhead: TextStyle(fontSize:15.0),
+            body1:TextStyle(fontSize:15.0)),
       ),
-      home: PageActivities(0),
+      home: HomeScreen(0),
     );
   }
 }

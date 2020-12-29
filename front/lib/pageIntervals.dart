@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front/tree.dart' as Tree hide getTree;
+import 'package:front/page_activities.dart';
 // to avoid collision with an Interval class in another library
 import 'package:front/requests.dart';
 
@@ -36,7 +37,16 @@ class _PageIntervalsState extends State<PageIntervals> {
               title: Text(snapshot.data.root.name),
               actions: <Widget>[
                 IconButton(icon: Icon(Icons.home),
-                  onPressed: () {}, // TODO
+                  onPressed: () {
+                    while(Navigator.of(context).canPop()) {
+                      print("pop");
+                      Navigator.of(context).pop();
+                    }
+                    /* this works also:
+                      Navigator.popUntil(context, ModalRoute.withName('/'));
+                      */
+                    PageActivities(0);
+                } // TODO
                 )
               ],
             ),

@@ -89,6 +89,7 @@ public class JSONPrinter extends Printer {
       this.printActivity(child);
       array.put(this.obj);
     }
+
     obj = aux;
     obj.put("name", name);
     obj.put("type", "Project");
@@ -166,11 +167,9 @@ class JSONfind  {
     root.accept(this,depth);
   }
 
-
   public void printInterval(Interval interval) {
     interval.accept(this);
   }
-
 
   public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs,
                          Activity parent,int id,int depth) {
