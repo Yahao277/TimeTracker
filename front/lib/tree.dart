@@ -14,25 +14,13 @@ abstract class Activity {
   int duration;
   List<dynamic> children = List<dynamic>();
 
-  Activity.fromJson(Map<String, dynamic> json)
-  { id = json['id'];
-    name = json['name'];
-    duration = json['duration'];
-    if(json['StartTime'] == null){
-      initialDate = null;
-    }else{
-      print('helloworld');
-      print(json['StartTime']);
-      String date = json['StartTime'].toString().split('T')[0];
-      String time = json['StartTime'].toString().split('T')[1];
-      String datetime = date + ' ' + time;
-      initialDate = _dateFormatter.parse(datetime);
-      print(_dateFormatter.parse(datetime));
-    }
-    //print(json['StartTime'].toString().split('T')[0]);
-    //initialDate = json['StartTime']==null ? null : _dateFormatter.parse(datetime);
-    finalDate = json['finalDate']==null ? null : _dateFormatter.parse(json['finalDate']);
-  }
+  Activity.fromJson(Map<String, dynamic> json):
+    id = json['id'],
+    name = json['name'],
+    duration = json['duration'],
+    initialDate = json['StartTime']=='null' ? null : _dateFormatter.parse(json['StartTime'].replaceAll(new RegExp(r'T'),' ')),
+    finalDate = json['EndTime']=='null' ? null : _dateFormatter.parse(json['EndTime'].replaceAll(new RegExp(r'T'),' '));
+
 }
 
 
@@ -77,8 +65,8 @@ class Interval {
 
   Interval.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        initialDate = json['initialDate']==null ? null : _dateFormatter.parse(json['initialDate']),
-        finalDate = json['finalDate']==null ? null : _dateFormatter.parse(json['finalDate']),
+        initialDate = json['StartTime']== 'null' ? null : _dateFormatter.parse(json['StartTime'].replaceAll(new RegExp(r'T'),' ')),
+        finalDate = json['EndTime']== 'null' ? null : _dateFormatter.parse(json['EndTime'].replaceAll(new RegExp(r'T'),' ')),
         duration = json['duration'],
         active = json['active'];
 }
