@@ -172,14 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     IconButton(icon: Icon(Icons.sort)
                         , onPressed: () {
                           showSortOptions();
-                          /*while(Navigator.of(context).canPop()) {
-                            //print("pop");
-                            // TODO: Screen Ordenar
-                            Navigator.of(context).pop();
-                          }*/
-                          /* this works also:
-                      Navigator.popUntil(context, ModalRoute.withName('/'));
-                      */
                           PageActivities(0);
                         }),
 
@@ -227,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Icon(Icons.add),
                 backgroundColor: Colors.green,
               ),
-              floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             );
           }
           else if (snapshot.hasError){

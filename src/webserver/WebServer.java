@@ -137,12 +137,12 @@ public class WebServer {
           break;
         }
         case "add": {
-          //http://localhost:8080/add?parent_id=0&duration=0&EndTime=null&name=null&StartTime=null&active=false&type=null
-          // http://loclahost:8080/add?name=<name>&type=<task/project>&parent=<parent id>
+          // http://loclahost:8080/add?name=<name>&type=<task/project>&parent=<parent id>&tag=<tag>
           body = "{'status':'ERR'}";
           if (tokens[2] == null || tokens[4] == null || tokens[6] == null) break;
           String name = tokens[2];
           String type = tokens[4];
+          String tag = tokens[8];
           Activity parent = findActivityById(Integer.parseInt(tokens[6]));
 
           Activity newone;
@@ -167,6 +167,8 @@ public class WebServer {
           } else {
             break;
           }
+
+          if (tag != null) newone.addTag(tag);
 
           System.out.println(root.toString());
           body = "{'status':'OK'}";

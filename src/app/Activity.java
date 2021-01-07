@@ -76,6 +76,7 @@ public abstract class Activity {
     this.startTime = start;
     this.endTime = end;
     this.tags = new ArrayList<>();
+    this.id = IdGenerator.getInstance().generateId();
 
     // Add myself to my parent list
     if (this.parent != null) {

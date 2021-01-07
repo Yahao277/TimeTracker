@@ -207,7 +207,7 @@ class _ActivityScreenState extends State<ActivityScreen>{
               child: _decideIcon(snapshot.data.root),
               backgroundColor: Colors.green,
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           );
         } else if(snapshot.hasError){
           return Text("${snapshot.error}");

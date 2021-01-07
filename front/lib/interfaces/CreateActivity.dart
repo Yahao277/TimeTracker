@@ -16,15 +16,17 @@ class _CreateEditScreenState extends State<CreateEditScreen> {
   bool editMode = false;
   bool task;
   TextEditingController _nameController;
+  TextEditingController _tagController;
   //Map<String,String> act = {"parent_id":"0","duration":"0","EndTime":"null","name":"null","StartTime":"null","active":"false","type":"null"};
   //Map<String,dynamic> activity = {"parent_id":0,"duration":0,"intervals":[],"EndTime":"null","name":"null","StartTime":"null","active":false,"type":"null"};
-  Map<String,String> activity = {"name":"null","type":"task","parent_id":"0"};
+  Map<String,String> activity = {"name":"null","type":"task","parent_id":"0","tag":""};
 
   @override
   void initState() {
     super.initState();
     this.task = true;
     this._nameController = TextEditingController();
+    this._tagController = TextEditingController();
   }
 
   Widget _generateCrear() {
@@ -80,13 +82,15 @@ class _CreateEditScreenState extends State<CreateEditScreen> {
             Row(
               children: [
                 Text('Add tags:'),
-                Flexible(child: TextField()),
-                IconButton(
+                Flexible(child: TextField(
+                  controller: _tagController
+                )),
+                /*IconButton(
                   icon: Icon(Icons.add),
                   color: Colors.blue,
                   onPressed: () {
                   },
-                )
+                ),*/
               ],
             ),
           ],
@@ -121,6 +125,7 @@ class _CreateEditScreenState extends State<CreateEditScreen> {
           activity['name'] = _nameController.text;
           activity['type'] = this.task ? "Task" : "Project";
           activity["parent_id"] = parentId.toString();
+          activity["tag"] = _tagController.text;
 
           String url = "10.0.2.2:8080";
           print(_nameController.text);
