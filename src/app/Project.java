@@ -138,10 +138,10 @@ public class Project extends Activity {
 
     if (depth == 0) {
       p.addProject(getName(), getStartTime(), getEndTime(),
-          getDuration(), new ArrayList<>(), this.getParent(), getId(), depth);
+          getDuration(), new ArrayList<>(), this.getParent(), getId(),getTags(), depth);
     } else if (depth > 0) {
       p.addProject(getName(), getStartTime(), getEndTime(),
-          getDuration(), childs, this.getParent(), getId(), depth);
+          getDuration(), childs, this.getParent(), getId(),getTags(), depth);
     } else if (depth < 0) {
       // do nothing
     }

@@ -6,6 +6,7 @@ import 'package:front/objectes/llistaActivitats.dart';
 import 'package:front/objectes/SideBarMenu.dart';
 import 'package:front/objectes/ordenarDialog.dart';
 import 'package:front/interfaces/SettingsView.dart';
+import 'package:front/interfaces/ActivityView.dart';
 import 'package:front/tree.dart' hide getTree;
 
 // the old getTree()
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<void> _showSortOptions() async{
+  Future<void> showSortOptions() async{
     switch (await showDialog<OrdenarSegons>(
       context: context,
       builder: (BuildContext context) {
@@ -83,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _timer.cancel();
     Navigator.of(context)
         .push(MaterialPageRoute<void>(
-      builder: (context) => PageActivities(childId),
+      builder: (context) => ActivityScreen(childId),
     )).then((var value) {
       _activateTimer();
       _refresh();
@@ -108,6 +109,15 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  Widget _printTags(List<dynamic> tags){
+    String acc = '';
+    for (String tag in tags){
+      acc += tag;
+      acc += ', ';
+    }
+    return Text(acc);
+  }
+
   @override
   Widget _buildRow(Activity activity, int index) {
     String strDuration = Duration(seconds: activity.duration).toString().split('.').first;
@@ -116,11 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (activity is Project) {
       return ListTile(
         title: Text('${activity.name}'),
-        subtitle: Text('fsdfsdfsd'), // TODO: activity tags list
+        subtitle: _printTags(activity.tags),
         leading: Icon(Icons.folder),
         trailing: Text('$strDuration'),
         onTap: () => _navigateDownActivities(activity.id),
-        // TODO, navigate down to show children tasks and projects
       );
     } else if (activity is Task) {
       Task task = activity as Task;
@@ -128,7 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
       trailing = IconButton(icon:(activity.active) ? Icon(Icons.stop) : Icon(Icons.play_arrow),
       onPressed: (){
-        //TODO: start or stop
         if(activity.active){
           stop(activity.id);
           _refresh();
@@ -139,14 +147,12 @@ class _HomeScreenState extends State<HomeScreen> {
       },);
       return ListTile(
         title: Text('${activity.name}'),
-        subtitle: Text('tasca'),
+        subtitle: _printTags(activity.tags),
         leading: Icon(Icons.text_snippet),
         trailing: trailing,
-        onTap: () =>  _navigateDownIntervals(activity.id),
-        // TODO, navigate down to show intervals
+        onTap: () =>  _navigateDownActivities(activity.id),
         onLongPress: () {
         },
-        // TODO start/stop counting the time for tis task
       );
     }
   }
@@ -165,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   actions: <Widget>[
                     IconButton(icon: Icon(Icons.sort)
                         , onPressed: () {
-                          _showSortOptions();
+                          showSortOptions();
                           /*while(Navigator.of(context).canPop()) {
                             //print("pop");
                             // TODO: Screen Ordenar
@@ -181,41 +187,42 @@ class _HomeScreenState extends State<HomeScreen> {
                   ]
               ),
               drawer: SideBarMenu(conf),
-              body:Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 32.0,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(16.0, 0, 0, 0),
-                    child: Text(
-                      'Your Activites:',
-                      style: TextStyle(fontSize: 22),
-                    ),
-                  ),
-                  Divider(
-                    indent: 80.0,
-                    endIndent: 80.0,
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  ListView.separated(
+              body:SingleChildScrollView (
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 32.0,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(16.0, 0, 0, 0),
+                        child: Text(
+                        'Your Activites:',
+                        style: TextStyle(fontSize: 22),
+                        ),
+                      ),
+                      Divider(
+                        indent: 80.0,
+                        endIndent: 80.0,
+                      ),
+                      SizedBox(
+                      height: 16.0,
+                      ),
+                      ListView.separated(
                     // it's like ListView.builder() but better because it includes a separator between items
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    itemCount: snapshot.data.root.children.length,
-                    itemBuilder: (BuildContext context, int index) =>
-                        _buildRow(snapshot.data.root.children[index], index),
-                    separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        itemCount: snapshot.data.root.children.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                          _buildRow(snapshot.data.root.children[index], index),
+                        separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(),
                   ),
                 ],
-              ),
+              )),
               floatingActionButton: FloatingActionButton(
                 onPressed: (){
-                  Navigator.pushNamed(context, '/createActivity');
+                  Navigator.pushNamed(context, '/createActivity',arguments:snapshot.data.root.id);
                 },
                 child: Icon(Icons.add),
                 backgroundColor: Colors.green,

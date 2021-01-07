@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:front/interfaces/SearchTagView.dart';
 import 'package:front/interfaces/SettingsView.dart';
 import 'package:front/interfaces/HomeScreen.dart';
+import 'package:front/interfaces/CreateActivity.dart';
 
 /**
  * Import de las diferentes pantalles
@@ -16,7 +17,7 @@ class Rutes {
     '/searchTag': (BuildContext) => SearchTagScreen(),
     '/calcTime': (BuildContext) => WorkInProgres(),
     '/settings': (BuildContext) => SettingsScreen(),
-    '/createActivity': (BuildContext) => WorkInProgres(),
+    '/createActivity': (BuildContext) => CreateEditScreen(),
     // De navegar l'arbre
     '/infoActivitat': (BuildContext) => WorkInProgres(),
   };

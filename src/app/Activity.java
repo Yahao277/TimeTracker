@@ -38,6 +38,10 @@ public abstract class Activity {
     this.tags.add(tag);
   }
 
+  public List<String> getTags() {
+    return this.tags;
+  }
+
   public void rmTag(String tag) {
     this.tags.remove(tag);
   }

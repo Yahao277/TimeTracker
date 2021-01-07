@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:front/objectes/tree.dart';
+import 'package:front/tree.dart';
+import 'dart:async';
 
 class ListActivities extends StatelessWidget {
   Tree tree;
+  int id;
 
-  ListActivities({Key key, this.tree}) : super(key: key) {
+  ListActivities({Key key, this.tree,this.id}) : super(key: key) {
     if (this.tree == null) {
       // For debuggin
       this.tree = getTree();

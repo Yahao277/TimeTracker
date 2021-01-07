@@ -167,7 +167,7 @@ public class Task extends Activity {
 
     if (depth >= 0) {
       p.addTask(getName(), getStartTime(), getEndTime(),
-          getDuration(), getActive(), intervals, this.getParent().getName(), getId(), depth - 1);
+          getDuration(), getActive(), intervals, this.getParent().getName(), getId(), getTags(),depth - 1);
 
     } else if(depth < 0) {
       // do nothing

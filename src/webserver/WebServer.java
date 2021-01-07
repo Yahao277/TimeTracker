@@ -1,6 +1,8 @@
 package webserver;
 
 import app.Activity;
+import app.JSONLoader;
+import app.Project;
 import app.Task;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -113,7 +115,7 @@ public class WebServer {
           Activity activity = findActivityById(id);
           assert (activity != null);
           body = activity.toJson(1).toString();
-          System.out.println(body);
+          //System.out.println(body);
           break;
         }
         case "start": {
@@ -134,7 +136,42 @@ public class WebServer {
           body = "{}";
           break;
         }
-        // TODO: add new task, project
+        case "add": {
+          //http://localhost:8080/add?parent_id=0&duration=0&EndTime=null&name=null&StartTime=null&active=false&type=null
+          // http://loclahost:8080/add?name=<name>&type=<task/project>&parent=<parent id>
+          body = "{'status':'ERR'}";
+          if (tokens[2] == null || tokens[4] == null || tokens[6] == null) break;
+          String name = tokens[2];
+          String type = tokens[4];
+          Activity parent = findActivityById(Integer.parseInt(tokens[6]));
+
+          Activity newone;
+
+          if (type.toUpperCase().equals("TASK")) {
+            newone = new Task(
+                parent,
+                name,
+                false,
+                null,
+                null,
+                0L
+            );
+          } else if (type.toUpperCase().equals("PROJECT")) {
+            newone = new Project(
+                parent,
+                name,
+                null,
+                null,
+                0L
+            );
+          } else {
+            break;
+          }
+
+          System.out.println(root.toString());
+          body = "{'status':'OK'}";
+          break;
+        }
         // TODO: edit task, project properties
         default:
           assert false;

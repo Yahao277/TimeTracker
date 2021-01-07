@@ -172,7 +172,7 @@ class JSONfind  {
   }
 
   public void addProject(String name, LocalDateTime start, LocalDateTime end, long duration, List<Activity> childs,
-                         Activity parent,int id,int depth) {
+                         Activity parent,int id,List<String>tags,int depth) {
     // We add a project into our JSON array
     JSONObject aux = this.obj;
     JSONArray array = new JSONArray();
@@ -186,6 +186,7 @@ class JSONfind  {
     obj.put("name", name);
     obj.put("type", "Project");
     obj.put("id",id);
+    obj.put("tags",tags);
 
     if (start == null) {
       obj.put("StartTime", "null");
@@ -205,11 +206,13 @@ class JSONfind  {
 
 
   public void addTask(String name, LocalDateTime start, LocalDateTime end, long duration, boolean active,
-                      List<Interval> intervals, String parent,int id, int depth) {
+                      List<Interval> intervals, String parent,int id, List<String> tags, int depth) {
     // We add a task into our JSON array
     obj.put("name", name);
     obj.put("type", "Task");
     obj.put("id",id);
+
+    obj.put("tags",tags);
 
     if (start == null) {
       obj.put("StartTime", "null");

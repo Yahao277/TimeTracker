@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -42,6 +44,13 @@ public class JSONLoader {
     JSONObject obj = new JSONObject(new JSONTokener(in));
 
     return JSONLoader.newTreeFromJSON(null, obj);
+  }
+
+  public static Activity fromWebRequest(String request, Activity parent) {
+    String json = new String(Base64.getDecoder().decode(request));
+
+    JSONObject obj = new JSONObject(json);
+    return JSONLoader.newTreeFromJSON(parent, obj);
   }
 
   private static Activity newTreeFromJSON(Activity parent, JSONObject obj) {
