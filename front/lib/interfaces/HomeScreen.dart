@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:front/pageIntervals.dart';
 import 'package:front/page_activities.dart';
-import 'package:front/objectes/llistaActivitats.dart';
 import 'package:front/objectes/SideBarMenu.dart';
 import 'package:front/objectes/ordenarDialog.dart';
 import 'package:front/interfaces/SettingsView.dart';

@@ -7,7 +7,6 @@ import 'package:front/interfaces/CreateActivity.dart';
 /**
  * Import de las diferentes pantalles
  */
-import 'package:front/interfaces/RootScreen.dart';
 import 'package:front/interfaces/todo.dart';
 
 class Rutes {
